@@ -7,7 +7,6 @@ A proposta da equipe é desenvolver um sistema para controle de vacinas de um po
 
 ## Alunos envolvidos: 
 - Holliver De Oliveira Costa
-- Jessé Monteiro Ferreira
 - José Matheus do Nascimento Gama
 - Lucas Brasileiro Raposo
 - Regina Letícia Santos Felipe
