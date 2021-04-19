@@ -1,4 +1,4 @@
-
+module Paciente where
 
 data Paciente = Paciente {nome:: String, sexo:: Char, cpf::Int, cep:: Int, bairro:: String, 
 rua::String, num_residencia:: Int, dataNascimento:: String, telefone::String} deriving(Show, Eq)
