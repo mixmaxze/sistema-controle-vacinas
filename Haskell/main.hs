@@ -7,6 +7,7 @@ import qualified Vacina
 
 main :: IO()
 main = do
+    Auxiliar.criaArquivos 
     system "clear"
     letreiro
     menuEntradas
@@ -65,7 +66,8 @@ menuVacinacoes = do
 
 menuVacinasEntradas :: IO()
 menuVacinasEntradas = do
-    menuVacinas
+    listaVacinas <- carregaVacinas
+    menuVacinas listaVacinas
     entrada <- getLine 
     system "clear"
     if entrada == "1" then do 
@@ -106,7 +108,8 @@ menuVacinasEntradas = do
 
 menuPacientesEntradas :: IO()
 menuPacientesEntradas = do
-    menuPacientes
+    listaPacientes <- carregaPacientes
+    menuPacientes listaPacientes
     entrada <- getLine 
     system "clear"
     if entrada == "1" then do 
@@ -157,3 +160,9 @@ letreiro = do
         "| |____| |       |       |       |   |___|------------\n"++
         "|_|    | |___|___|___|___|___|___|___|\n"++
         "       |_|\n\n")
+
+carregaVacinas:: IO[Vacina.Vacina ]
+carregaVacinas = Auxiliar.iniciaVacina 
+
+carregaPacientes:: IO[Paciente.Paciente  ]
+carregaPacientes = Auxiliar.iniciaPaciente  
