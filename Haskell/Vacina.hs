@@ -24,3 +24,4 @@ todasAsVacinas (h:t) = "Nome: " ++ nome h ++ "Data de fabricação: " ++ dataFab
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++
         "Enfermidade: " ++ enfermidade h++ " "++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ "Pais de origem: "++ paisOrigem h ++ "\n" ++ todasAsVacinas t
+        
