@@ -1,17 +1,15 @@
 module Auxiliar where
 
 import qualified Vacina
-
 import qualified Paciente
-import Data.Map as Map ( fromList, Map)
+import Data.Map as Map (fromList, Map)
 import Data.List
-import Data.List.Split ( splitOn )
-import qualified System.IO.Strict as Strict
+import System.IO
 
 iniciaVacina:: IO[Vacina.Vacina]
 iniciaVacina = do
-    arquivo <- Strict.readFile "dados/vacina.txt"
-    let lista = Data.list.map(splitOn ",") (lines arquivo)
+    arquivo <- readFile "dados/vacina.txt"
+    let lista = map (splitOn ",") (lines arquivo)
     let lista_vacina = Data.list.map constroiVacina lista
     return lista_vacina
 
@@ -24,6 +22,6 @@ escreverVacina vacina = do
 
 escreverPaciente:: Paciente.Paciente -> IO()
 escreverPaciente paciente = do
-    let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.num_residencia paciente) ++ "," ++ Paciente.dataNascimento paciente ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
+    let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ Paciente.dataNascimento paciente ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
     appendFile "dados/paciente.txt" pacienteStr
     return ()
