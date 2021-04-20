@@ -45,8 +45,6 @@ menuVacinas listaVacinas= do
             "5. Listar vacinas por atributo")
     
 
-
-
 menuPacientes :: [Paciente.Paciente ] -> IO()
 menuPacientes listaPacientes = do
     system "clear"
@@ -54,15 +52,6 @@ menuPacientes listaPacientes = do
             "1. Cadastrar paciente\n" ++
             "2. Atualizar paciente\n" ++
             "3. Listar pacientes")
-   
-
-menuVacinacoes :: IO()
-menuVacinacoes = do
-    system "clear"
-    putStrLn("Menu de Vacinações\n\n" ++
-            "1. Agendar Vacinação\n" ++
-            "2. Data(s) e faixa etária da atual/próxima vacinação\n" ++
-            "3. Listar próximos pacientes a serem vacinados")
 
 menuVacinasEntradas :: IO()
 menuVacinasEntradas = do
@@ -96,10 +85,21 @@ menuVacinasEntradas = do
         Auxiliar.escreverVacina(Vacina.adicionaVacina nome dataFabricacao dataValidade laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
 
         menuPrincipal
+
+    else if entrada == "2" then do
+        return() -- LISTAR VACINAS EM FALTA
+
+    else if entrada == "3" then do
+        return() -- LISTAR VACINAS EM ESTOQUE
+
     else if entrada == "4" then do
         putStrLn (Vacina.todasAsVacinas listaVacinas)
         menuPrincipal
-    else do 
+
+    else if entrada == "5" then do
+        return() -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
+
+    else do
         putStrLn "Opção inválida"
         menuPrincipal
     system "clear"
@@ -141,13 +141,57 @@ menuPacientesEntradas = do
         menuPrincipal
     system "clear"
     menuPrincipal
+
+menuVacinacoes :: IO()
+menuVacinacoes = do
+    system "clear"
+    putStrLn("Menu de Vacinações\n\n" ++
+            "1. Agendar Vacinação\n" ++
+            "2. Data(s) e faixa etária da atual/próxima vacinação\n" ++
+            "3. Listar próximos pacientes a serem vacinados")
     return()
 
 menuVacinacoesEntradas :: IO()
 menuVacinacoesEntradas = do
     system "clear"
     menuVacinacoes
+    entrada <- getLine
+
+    if entrada == "1" then do
+        menuAgendacaoVacinas
+
+    else if entrada == "2" then do
+        return() -- pegar data e faixa etaria da vacinacao mais proxima
+    
+    else if entrada == "3" then do
+        return() -- listas proximos pacientes a serem vacinados
+
+    else do
+        putStrLn("Opção inválida")
+        return()
+
     return()
+
+menuAgendacaoVacinas :: IO()
+menuAgendacaoVacinas = do
+    system "clear"
+
+    putStrLn("Agendando Vacinação")
+
+    putStrLn("Insira a data da primeira dose:")
+    dataPrimeiraDose <- getLine
+    putStrLn("Insira a data da segunda dose (caso seja necessário):")
+    dataSegundaDose <- getLine
+    putStrLn("Insira o nome da vacina:")
+    nomeVacina <- getLine
+    putStrLn("Digite a faixa etária")
+    putStrLn("Começa com a idade:")
+    idadeUm <- getLine
+    putStrLn("E (se necessário) vai até a idade:")
+    idadeDois <- getLine
+
+    return()
+
 
 letreiro :: IO()
 letreiro = do
