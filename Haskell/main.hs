@@ -25,40 +25,31 @@ menuEntradas = do
 
     input <- getLine
     if input == "1" then do
-        menuVacinasEntradas
+        listaVacinas <- carregaVacinas
+        menuVacinasEntradas listaVacinas
     else if input == "2" then do
-        menuPacientesEntradas
+        listaPacientes <- carregaPacientes
+        menuPacientesEntradas listaPacientes
     else if input == "3" then do
         menuVacinacoesEntradas
     else do
         putStrLn "Opção inválida."
         menuEntradas
+   
 
-menuVacinas :: [Vacina.Vacina ] -> IO()
-menuVacinas listaVacinas= do
+menuVacinasEntradas :: [Vacina.Vacina ] -> IO()
+menuVacinasEntradas listaVacinas = do
+    listaVacinas <- carregaVacinas
+   
     system "clear"
+
     putStrLn("Menu das Vacinas\n\n" ++
             "1. Cadastrar Vacina\n" ++ 
             "2. Listar vacinas em falta\n" ++
             "3. Listar vacinas em estoque\n" ++
             "4. Listar todas as vacinas do sistema\n" ++
             "5. Listar vacinas por atributo")
-    
-
-menuPacientes :: [Paciente.Paciente ] -> IO()
-menuPacientes listaPacientes = do
-    system "clear"
-    putStrLn("Menu dos Pacientes\n\n" ++
-            "1. Cadastrar paciente\n" ++
-            "2. Atualizar paciente\n" ++
-            "3. Listar pacientes")
-
-menuVacinasEntradas :: IO()
-menuVacinasEntradas = do
-    listaVacinas <- carregaVacinas
-    menuVacinas listaVacinas
     entrada <- getLine 
-    system "clear"
     if entrada == "1" then do 
         putStrLn "Cadastrando uma Vacina" 
         putStrLn "Insina o nome da vacina"
@@ -106,10 +97,14 @@ menuVacinasEntradas = do
     menuPrincipal
     return()
 
-menuPacientesEntradas :: IO()
-menuPacientesEntradas = do
-    listaPacientes <- carregaPacientes
-    menuPacientes listaPacientes
+menuPacientesEntradas ::  [Paciente.Paciente ] -> IO()
+menuPacientesEntradas listaPacientes = do
+
+    putStrLn("Menu dos Pacientes\n\n" ++
+            "1. Cadastrar paciente\n" ++
+            "2. Atualizar paciente\n" ++
+            "3. Listar pacientes")
+
     entrada <- getLine 
     system "clear"
     if entrada == "1" then do 
