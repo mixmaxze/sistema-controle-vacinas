@@ -93,8 +93,34 @@ menuVacinasEntradas = do
         menuVacinasEntradas
 
     else if entrada == "5" then do
+        putStrLn("Listar por \n\n" ++
+            "1. Enfermidade\n" ++ 
+            "2. Laboratorio\n" ++
+            "3. Pais de Origem\n")
+        atributo <- getLine 
+        system "clear"
+        if atributo == "1" then do
+            putStrLn ("Nome da enfermidade: \n")
+            nomeEnfermidade <-getLine
+            putStrLn(Vacina.vacinasPorEnfermidade nomeEnfermidade listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else if atributo == "2" then do
+            putStrLn ("Nome do laboratorio: \n")
+            nomeLaboratorio <-getLine
+            putStrLn(Vacina.vacinasPorLaboratorio nomeLaboratorio listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else if atributo == "3" then do
+            putStrLn ("Nome do pais de origem: \n")
+            nomePais <- getLine 
+            putStrLn (Vacina.vacinasPorPaisDeOrigem nomePais listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else do 
+            menuVacinasEntradas    
         retornoMenu
-        menuVacinasEntradas -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
+         -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
         
     else do
         putStrLn "Opção inválida."
