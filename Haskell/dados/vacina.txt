@@ -1,2 +1,0 @@
-
-CoronaVac,19/04,19/05,butatan,10000,2,covid19,78,butatan,china
