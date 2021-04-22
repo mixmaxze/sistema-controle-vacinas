@@ -5,46 +5,46 @@ import qualified Paciente
 import Data.Map as Map (fromList, Map)
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO.Strict as Strict
+import System.IO as Strict ( readFile )
 
 criaArquivos :: IO()
 criaArquivos = do
-    appendFile "dados/paciente.txt" ("")
-    appendFile "dados/vacina.txt" ("")
+    appendFile "dados/pacientes.txt" ("")
+    appendFile "dados/vacinas.txt" ("")
    
 iniciaVacina:: IO[Vacina.Vacina]
 iniciaVacina = do
-    arquivo <- Strict.readFile "dados/vacina.txt"
+    arquivo <- Strict.readFile "dados/vacinas.txt"
     let lista = map (splitOn ",") (lines arquivo)
     let lista_vacina = Data.List.map constroiVacina lista
     return lista_vacina
 
 iniciaPaciente:: IO[Paciente.Paciente ]
 iniciaPaciente = do
-    arquivo <- Strict.readFile "dados/paciente.txt"
+    arquivo <- Strict.readFile "dados/pacientes.txt"
     let lista = map (splitOn ",") (lines arquivo)
     let lista_paciente = Data.List.map constroiPaciente lista
     return lista_paciente
 
 escreverVacina:: Vacina.Vacina -> IO()
 escreverVacina vacina = do
-    let vacinaStr = Vacina.nome vacina ++ "," ++ Vacina.dataFabricacao vacina ++ "," ++ Vacina.dataValidade vacina ++ "," ++ Vacina.laboratorio vacina ++ "," ++ show (Vacina.estoque vacina) ++ "," ++ show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ Vacina.enfermidade vacina ++ "," ++ show (Vacina.taxaEficiencia vacina) ++ "," ++ Vacina.seloAprovacao vacina ++ "," ++ Vacina.paisOrigem vacina ++ "\n"
-    appendFile "dados/vacina.txt" vacinaStr
+    let vacinaStr = Vacina.nome vacina ++ "," ++ show (Vacina.dataFabricacao vacina) ++ "," ++ show (Vacina.dataValidade vacina) ++ "," ++ Vacina.laboratorio vacina ++ "," ++ show (Vacina.estoque vacina) ++ "," ++ show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ Vacina.enfermidade vacina ++ "," ++ show (Vacina.taxaEficiencia vacina) ++ "," ++ Vacina.seloAprovacao vacina ++ "," ++ Vacina.paisOrigem vacina ++ "\n"
+    appendFile "dados/vacinas.txt" vacinaStr
     return ()
 
 escreverPaciente:: Paciente.Paciente -> IO()
 escreverPaciente paciente = do
     
     let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ Paciente.dataNascimento paciente ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
-    appendFile "dados/paciente.txt" pacienteStr
+    appendFile "dados/pacientes.txt" pacienteStr
     return ()
 
 constroiVacina :: [String] -> Vacina.Vacina 
 constroiVacina lista = 
     Vacina.Vacina {
         Vacina.nome = lista !! 0,
-        Vacina.dataFabricacao  =  lista !! 1,
-        Vacina.dataValidade =  lista !! 2,
+        Vacina.dataFabricacao  =  read (lista !! 1),
+        Vacina.dataValidade =  read (lista !! 2),
         Vacina.laboratorio =  lista !! 3,
         Vacina.estoque = read (lista !! 4),
         Vacina.quantidadeDosesNecessarias = read (lista !! 5),

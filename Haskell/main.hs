@@ -20,7 +20,7 @@ menuPrincipal = do
             "3. Controle de Vacinações")
     input <- getLine
 
-    if input == "1" then do
+    if input == "1" then do 
         menuVacinasEntradas
     else if input == "2" then do
         menuPacientesEntradas
@@ -33,6 +33,7 @@ menuPrincipal = do
 menuVacinas :: [Vacina.Vacina ] -> IO()
 menuVacinas listaVacinas = do
     system "clear"
+
     putStrLn("Menu das Vacinas\n\n" ++
             "1. Cadastrar Vacina\n" ++ 
             "2. Listar vacinas em falta\n" ++
@@ -71,7 +72,7 @@ menuVacinasEntradas = do
         putStrLn "Insira o pais de origem da vacina:"
         paisOrigem <- getLine
 
-        Auxiliar.escreverVacina(Vacina.adicionaVacina nome dataFabricacao dataValidade laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
+        Auxiliar.escreverVacina(Vacina.adicionaVacina nome (read dataFabricacao) (read dataValidade) laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
 
         retornoMenu
         menuVacinasEntradas
@@ -92,8 +93,34 @@ menuVacinasEntradas = do
         menuVacinasEntradas
 
     else if entrada == "5" then do
+        putStrLn("Listar por \n\n" ++
+            "1. Enfermidade\n" ++ 
+            "2. Laboratorio\n" ++
+            "3. Pais de Origem\n")
+        atributo <- getLine 
+        system "clear"
+        if atributo == "1" then do
+            putStrLn ("Nome da enfermidade: \n")
+            nomeEnfermidade <-getLine
+            putStrLn(Vacina.vacinasPorEnfermidade nomeEnfermidade listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else if atributo == "2" then do
+            putStrLn ("Nome do laboratorio: \n")
+            nomeLaboratorio <-getLine
+            putStrLn(Vacina.vacinasPorLaboratorio nomeLaboratorio listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else if atributo == "3" then do
+            putStrLn ("Nome do pais de origem: \n")
+            nomePais <- getLine 
+            putStrLn (Vacina.vacinasPorPaisDeOrigem nomePais listaVacinas)
+            retornoMenu
+            menuVacinasEntradas
+        else do 
+            menuVacinasEntradas    
         retornoMenu
-        menuVacinasEntradas -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
+         -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
         
     else do
         putStrLn "Opção inválida."

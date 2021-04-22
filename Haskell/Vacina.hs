@@ -1,4 +1,5 @@
 module Vacina where
+import Data.Time.Calendar
 
 data Vacina = Vacina {nome:: String, dataFabricacao:: String, dataValidade::String, laboratorio:: String, estoque:: Int, 
 quantidadeDosesNecessarias::Int, enfermidade:: String, taxaEficiencia:: Int, seloAprovacao::String, paisOrigem:: String} deriving(Show, Eq)
@@ -19,8 +20,8 @@ adicionaVacina nome dataFabricacao dataValidade laboratorio estoque quantidadeDo
 
 todasAsVacinas:: [Vacina] -> String
 todasAsVacinas [] = ""
-todasAsVacinas (h:t) = "Nome: " ++ nome h ++ "Data de fabricação: " ++ dataFabricacao h ++
-        " " ++ "Data de validade: " ++ dataValidade h ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
+todasAsVacinas (h:t) = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+        " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++
         "Enfermidade: " ++ enfermidade h++ " "++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ "Pais de origem: "++ paisOrigem h ++ "\n" ++ todasAsVacinas t
@@ -34,8 +35,8 @@ pegaVacina nomeVacina (h:t)
 vacinasPorLaboratorio :: String -> [Vacina] -> String
 vacinasPorLaboratorio _ [] = ""
 vacinasPorLaboratorio nomeLaboratorio (h:t)
-    | laboratorio h == nomeLaboratorio = "Nome: " ++ nome h ++ "Data de fabricação: " ++ dataFabricacao h ++
-        " " ++ "Data de validade: " ++ dataValidade h ++ " " ++ " "
+    | laboratorio h == nomeLaboratorio = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+        " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++
         "Enfermidade: " ++ enfermidade h++ " "++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ "Pais de origem: "++ paisOrigem h ++ "\n" ++ vacinasPorLaboratorio nomeLaboratorio t
@@ -44,8 +45,8 @@ vacinasPorLaboratorio nomeLaboratorio (h:t)
 vacinasPorEnfermidade :: String -> [Vacina] -> String
 vacinasPorEnfermidade _ [] = ""
 vacinasPorEnfermidade nomeEnfermidade (h:t)
-    | laboratorio h == nomeEnfermidade = "Nome: " ++ nome h ++ "Data de fabricação: " ++ dataFabricacao h ++
-        " " ++ "Data de validade: " ++ dataValidade h ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
+    | laboratorio h == nomeEnfermidade = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+        " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ "Pais de origem: "++ paisOrigem h ++ "\n" ++ vacinasPorEnfermidade nomeEnfermidade t
     | otherwise = vacinasPorEnfermidade nomeEnfermidade t
@@ -53,8 +54,8 @@ vacinasPorEnfermidade nomeEnfermidade (h:t)
 vacinasPorPaisDeOrigem :: String -> [Vacina] -> String
 vacinasPorPaisDeOrigem _ [] = ""
 vacinasPorPaisDeOrigem nomePaisDeOrigem (h:t)
-    | laboratorio h == nomePaisDeOrigem = "Nome: " ++ nome h ++ "Data de fabricação: " ++ dataFabricacao h ++
-        " " ++ "Data de validade: " ++ dataValidade h ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
+    | laboratorio h == nomePaisDeOrigem = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+        " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++
         "Enfermidade: " ++ enfermidade h++ " "++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ vacinasPorPaisDeOrigem nomePaisDeOrigem t
