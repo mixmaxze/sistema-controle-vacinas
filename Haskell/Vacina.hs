@@ -45,7 +45,7 @@ vacinasPorLaboratorio nomeLaboratorio (h:t)
 vacinasPorEnfermidade :: String -> [Vacina] -> String
 vacinasPorEnfermidade _ [] = ""
 vacinasPorEnfermidade nomeEnfermidade (h:t)
-    | laboratorio h == nomeEnfermidade = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+    | enfermidade h == nomeEnfermidade = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
         " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ "Pais de origem: "++ paisOrigem h ++ "\n" ++ vacinasPorEnfermidade nomeEnfermidade t
@@ -54,9 +54,30 @@ vacinasPorEnfermidade nomeEnfermidade (h:t)
 vacinasPorPaisDeOrigem :: String -> [Vacina] -> String
 vacinasPorPaisDeOrigem _ [] = ""
 vacinasPorPaisDeOrigem nomePaisDeOrigem (h:t)
-    | laboratorio h == nomePaisDeOrigem = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
+    | paisOrigem h == nomePaisDeOrigem = "Nome: " ++ nome h ++ "Data de fabricação: " ++ show (dataFabricacao h) ++
         " " ++ "Data de validade: " ++ show (dataValidade h) ++ " " ++ "Laboratório: " ++ laboratorio h ++ " "
         ++ "Estoque: " ++ show (estoque h) ++ " Quantidade de doses necessarias: " ++ show (quantidadeDosesNecessarias h) ++ " " ++
         "Enfermidade: " ++ enfermidade h++ " "++ "Taxa de eficiência" ++ show (taxaEficiencia h) ++ 
         " "  ++ "Selo de aprovação: " ++ seloAprovacao h ++ vacinasPorPaisDeOrigem nomePaisDeOrigem t
     | otherwise = vacinasPorPaisDeOrigem nomePaisDeOrigem t
+
+vacinasEmFalta:: [Vacina] -> String
+vacinasEmFalta [] = ""
+vacinasEmFalta (h:t)
+    | estoque h == 0 = "Nome: " ++ nome h ++
+        ", " ++ "Estoque: " ++ show (estoque h) ++ 
+        ", " ++  "Laboratório: " ++ laboratorio h ++ 
+        ", " ++ "Enfermidade: " ++ enfermidade h ++ " " ++ 
+        "\n" ++ vacinasEmFalta t
+    | otherwise =  vacinasEmFalta t
+
+vacinasEmEstoque:: [Vacina] -> String
+vacinasEmEstoque [] = ""
+vacinasEmEstoque (h:t)
+    | estoque h /= 0 = "Nome: " ++ nome h ++
+        ", " ++ "Data de validade: " ++
+        ", " ++ "Estoque: " ++ show (estoque h) ++ 
+        ", " ++  "Laboratório: " ++ laboratorio h ++ 
+        ", " ++ "Enfermidade: " ++ enfermidade h++ " " ++ 
+        "\n" ++ vacinasEmEstoque t
+    | otherwise =  vacinasEmEstoque t 
