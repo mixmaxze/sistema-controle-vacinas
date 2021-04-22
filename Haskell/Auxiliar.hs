@@ -5,7 +5,7 @@ import qualified Paciente
 import Data.Map as Map (fromList, Map)
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO as Strict ( readFile )
+import System.IO.Strict as Strict
 
 criaArquivos :: IO()
 criaArquivos = do
