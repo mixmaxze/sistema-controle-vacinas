@@ -1,10 +1,10 @@
 module Vacina where
 import Data.Time.Calendar
 
-data Vacina = Vacina {nome:: String, dataFabricacao:: Day, dataValidade::Day, laboratorio:: String, estoque:: Int, 
+data Vacina = Vacina {nome:: String, dataFabricacao:: String, dataValidade::String, laboratorio:: String, estoque:: Int, 
 quantidadeDosesNecessarias::Int, enfermidade:: String, taxaEficiencia:: Int, seloAprovacao::String, paisOrigem:: String} deriving(Show, Eq)
 
-adicionaVacina:: String -> Day -> Day -> String -> Int -> Int -> String -> Int -> String -> String-> Vacina
+adicionaVacina:: String -> String -> String -> String -> Int -> Int -> String -> Int -> String -> String-> Vacina
 adicionaVacina nome dataFabricacao dataValidade laboratorio estoque quantidadeDosesNecessarias enfermidade taxaEficiencia seloAprovacao paisOrigem = 
     (Vacina {nome = nome,
     dataFabricacao = dataFabricacao,
