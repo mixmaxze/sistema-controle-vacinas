@@ -73,21 +73,25 @@ menuVacinasEntradas = do
         paisOrigem <- getLine
 
         Auxiliar.escreverVacina(Vacina.adicionaVacina nome dataFabricacao dataValidade laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
+        putStrLn "Vacina cadastrada"
 
         retornoMenu
         menuVacinasEntradas
 
     else if entrada == "2" then do
-        -- LISTAR VACINAS EM FALTA
+        putStrLn "Vacinas em falta: \n"
+        putStrLn (Vacina.vacinasEmFalta listaVacinas)
         retornoMenu
         menuVacinasEntradas
     
     else if entrada == "3" then do
-        -- LISTAR VACINAS EM ESTOQUE
+        putStrLn "Vacinas disponiveis: \n"
+        putStrLn (Vacina.vacinasEmEstoque listaVacinas)
         retornoMenu
         menuVacinasEntradas
 
     else if entrada == "4" then do
+        putStrLn "Vacinas cadastradas: \n"
         putStrLn(Vacina.todasAsVacinas listaVacinas)
         retornoMenu
         menuVacinasEntradas
@@ -162,8 +166,8 @@ menuPacientesEntradas = do
         putStrLn "Insira o telefone do paciente:"
         telefone <- getLine
 
-        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome (read sexo) (read cpf) (read cep) bairro rua (read num_residencia) dataNascimento telefone)
-
+        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf cep bairro rua (read num_residencia) dataNascimento telefone)
+        putStrLn "Paciente cadastrado"
         menuPacientesEntradas
 
     else if entrada == "2" then do
@@ -172,6 +176,7 @@ menuPacientesEntradas = do
         menuPacientesEntradas
     
     else if entrada == "3" then do
+        putStrLn "Pacientes cadastrados: \n"
         putStrLn (Paciente.todosOsPacientes listaPacientes)
         retornoMenu
         menuPacientesEntradas
