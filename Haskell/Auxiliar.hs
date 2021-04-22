@@ -26,13 +26,13 @@ iniciaPaciente = do
     return lista_paciente
 escreverVacina:: Vacina.Vacina -> IO()
 escreverVacina vacina = do
-    let vacinaStr = Vacina.nome vacina ++ "," ++ Vacina.dataFabricacao vacina ++ "," ++ Vacina.dataValidade vacina ++ "," ++ Vacina.laboratorio vacina ++ "," ++ show (Vacina.estoque vacina) ++ "," ++ show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ Vacina.enfermidade vacina ++ "," ++ show (Vacina.taxaEficiencia vacina) ++ "," ++ Vacina.seloAprovacao vacina ++ "," ++ Vacina.paisOrigem vacina ++ "\n"
-    appendFile "dados/vacina.txt" vacinaStr
+    let vacinaStr = Vacina.nome vacina ++ "," ++ show (Vacina.dataFabricacao vacina) ++ "," ++ show (Vacina.dataValidade vacina) ++ "," ++ Vacina.laboratorio vacina ++ "," ++ show (Vacina.estoque vacina) ++ "," ++ show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ Vacina.enfermidade vacina ++ "," ++ show (Vacina.taxaEficiencia vacina) ++ "," ++ Vacina.seloAprovacao vacina ++ "," ++ Vacina.paisOrigem vacina ++ "\n"
+    appendFile "dados/vacinas.txt" vacinaStr
     return ()
 escreverPaciente:: Paciente.Paciente -> IO()
 escreverPaciente paciente = do
     let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ Paciente.dataNascimento paciente ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
-    appendFile "dados/paciente.txt" pacienteStr
+    appendFile "dados/pacientes.txt" pacienteStr
     return ()
 constroiVacina :: [String] -> Vacina.Vacina 
 constroiVacina lista = 

@@ -50,6 +50,7 @@ menuVacinasEntradas listaVacinas = do
             "4. Listar todas as vacinas do sistema\n" ++
             "5. Listar vacinas por atributo")
     entrada <- getLine 
+    system "clear"
     if entrada == "1" then do 
         putStrLn "Cadastrando uma Vacina" 
         putStrLn "Insina o nome da vacina"
@@ -73,7 +74,7 @@ menuVacinasEntradas listaVacinas = do
         putStrLn "Insira o pais de origem da vacina"
         paisOrigem <- getLine
 
-        Auxiliar.escreverVacina(Vacina.adicionaVacina nome dataFabricacao dataValidade laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
+        Auxiliar.escreverVacina(Vacina.adicionaVacina nome (read dataFabricacao) (read dataValidade) laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
 
         menuPrincipal
 
