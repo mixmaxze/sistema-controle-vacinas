@@ -72,7 +72,7 @@ menuVacinasEntradas = do
         putStrLn "Insira o pais de origem da vacina:"
         paisOrigem <- getLine
 
-        Auxiliar.escreverVacina(Vacina.adicionaVacina nome (read dataFabricacao) (read dataValidade) laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
+        Auxiliar.escreverVacina(Vacina.adicionaVacina nome dataFabricacao dataValidade laboratorio (read estoque) (read quantidadeDosesNecessarias) enfermidade (read taxaEficiencia) seloAprovacao paisOrigem)
 
         retornoMenu
         menuVacinasEntradas
@@ -167,10 +167,12 @@ menuPacientesEntradas = do
         menuPacientesEntradas
 
     else if entrada == "2" then do
+        --atualizar paciente
         retornoMenu
         menuPacientesEntradas
     
     else if entrada == "3" then do
+        putStrLn (Paciente.todosOsPacientes listaPacientes)
         retornoMenu
         menuPacientesEntradas
 
