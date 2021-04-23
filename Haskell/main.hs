@@ -3,6 +3,7 @@ import System.Process
 import qualified Auxiliar
 import qualified Paciente 
 import qualified Vacina
+import qualified Vacinacao
 
 main :: IO()
 main = do
@@ -215,21 +216,30 @@ menuVacinacoesEntradas = do
 
 menuAgendacaoVacinas :: IO()
 menuAgendacaoVacinas = do
+    listaVacinacoes <- Auxiliar.iniciaVacinacao
     system "clear"
 
     putStrLn("Agendando Vacinação\n\n")
-
-    putStrLn("Insira a data da primeira dose:")
-    dataPrimeiraDose <- getLine
-    putStrLn("Insira a data da segunda dose (caso seja necessário):")
-    dataSegundaDose <- getLine
     putStrLn("Insira o nome da vacina:")
     nomeVacina <- getLine
+    putStrLn("Insira o local:")
+    local <- getLine
+    putStrLn("Insira a data da primeira dose:")
+    dataPrimeiraDose <- getLine
+    putStrLn("Insira a data da segunda dose (caso necessário):")
+    dataSegundaDose <- getLine
+    putStrLn("Insira o horário de início (horas:minutos):")
+    horarioInicio <- getLine
+    putStrLn("Insira o horário de término (horas:minutos:")
+    horarioFim <- getLine
     putStrLn("\nInforme a faixa etária")
     putStrLn("Começa com a idade:")
     idadeUm <- getLine
-    putStrLn("E (se necessário) vai até a idade:")
+    putStrLn("Vai até a idade:")
     idadeDois <- getLine
+    
+    Auxiliar.escreverVacinacao(Vacinacao.adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim (read idadeUm) (read idadeDois))
+    putStrLn("Vacinação agendada.")
 
     retornoMenu
     menuVacinacoesEntradas
@@ -246,10 +256,10 @@ letreiro = do
         "|_|    | |___|___|___|___|___|___|___|\n"++
         "       |_|\n\n")
 
-carregaVacinas:: IO[Vacina.Vacina ]
+carregaVacinas:: IO[Vacina.Vacina]
 carregaVacinas = Auxiliar.iniciaVacina 
 
-carregaPacientes:: IO[Paciente.Paciente  ]
+carregaPacientes:: IO[Paciente.Paciente]
 carregaPacientes = Auxiliar.iniciaPaciente 
 
 retornoMenu :: IO()
@@ -260,4 +270,4 @@ retornoMenu = do
     return ()
 
 textoMenuAnterior :: IO()
-textoMenuAnterior = putStrLn("\n\nOu pressione ENTER para acessar o menu anterior.")
+textoMenuAnterior = putStrLn("\nPressione ENTER para acessar o menu anterior.")
