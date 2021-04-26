@@ -1,13 +1,13 @@
 import System.IO
 import System.Process
 import qualified Auxiliar
-import qualified Paciente 
+import qualified Paciente
 import qualified Vacina
 import qualified Vacinacao
 
 main :: IO()
 main = do
-    Auxiliar.criaArquivos 
+    Auxiliar.criaArquivos
     system "clear"
     menuPrincipal
 
@@ -21,11 +21,11 @@ menuPrincipal = do
             "3. Controle de Vacinações")
     input <- getLine
 
-    if input == "1" then do 
+    if input == "1" then
         menuVacinasEntradas
-    else if input == "2" then do
+    else if input == "2" then
         menuPacientesEntradas
-    else if input == "3" then do
+    else if input == "3" then
         menuVacinacoesEntradas
     else do
         putStrLn "Opção inválida."
@@ -36,11 +36,13 @@ menuVacinas listaVacinas = do
     system "clear"
 
     putStrLn("Menu das Vacinas\n\n" ++
-            "1. Cadastrar Vacina\n" ++ 
+            "1. Cadastrar Vacina\n" ++
             "2. Listar vacinas em falta\n" ++
             "3. Listar vacinas em estoque\n" ++
             "4. Listar todas as vacinas do sistema\n" ++
-            "5. Listar vacinas por atributo")
+            "5. Listar vacinas por atributo\n" ++
+            "6. Doses disponiveis para aplicação ")
+
 
 menuVacinasEntradas :: IO()
 menuVacinasEntradas = do
@@ -50,8 +52,8 @@ menuVacinasEntradas = do
     entrada <- getLine
     system "clear"
 
-    if entrada == "1" then do 
-        putStrLn "Cadastrando uma vacina" 
+    if entrada == "1" then do
+        putStrLn "Cadastrando uma vacina"
         putStrLn "Insina o nome da vacina:"
         nome <- getLine
         putStrLn "Insira a data de fabricação da vacina:"
@@ -59,17 +61,17 @@ menuVacinasEntradas = do
         putStrLn "Insira a data de validade da vacina:"
         dataValidade <- getLine
         putStrLn "Insira o laboratorio que forneceu a vacina:"
-        laboratorio <- getLine 
+        laboratorio <- getLine
         putStrLn "Insira a quantidade de vacinas fornecidas:"
         estoque <- getLine
         putStrLn "Insira a quantidade de doses necessarias da vacina:"
-        quantidadeDosesNecessarias <- getLine 
+        quantidadeDosesNecessarias <- getLine
         putStrLn "Insira a doença associada:"
-        enfermidade <- getLine 
+        enfermidade <- getLine
         putStrLn "Insira a taxa de eficiência da vacina:"
         taxaEficiencia <- getLine
         putStrLn "Insira o selo de aprovação da vacina:"
-        seloAprovacao <- getLine 
+        seloAprovacao <- getLine
         putStrLn "Insira o pais de origem da vacina:"
         paisOrigem <- getLine
 
@@ -84,7 +86,7 @@ menuVacinasEntradas = do
         putStrLn (Vacina.vacinasEmFalta listaVacinas)
         retornoMenu
         menuVacinasEntradas
-    
+
     else if entrada == "3" then do
         putStrLn "Vacinas disponiveis: \n"
         putStrLn (Vacina.vacinasEmEstoque listaVacinas)
@@ -99,34 +101,41 @@ menuVacinasEntradas = do
 
     else if entrada == "5" then do
         putStrLn("Listar por \n\n" ++
-            "1. Enfermidade\n" ++ 
+            "1. Enfermidade\n" ++
             "2. Laboratorio\n" ++
             "3. Pais de Origem\n")
-        atributo <- getLine 
+        atributo <- getLine
         system "clear"
         if atributo == "1" then do
-            putStrLn ("Nome da enfermidade: \n")
+            putStrLn "Nome da enfermidade: \n"
             nomeEnfermidade <-getLine
             putStrLn(Vacina.vacinasPorEnfermidade nomeEnfermidade listaVacinas)
             retornoMenu
             menuVacinasEntradas
         else if atributo == "2" then do
-            putStrLn ("Nome do laboratorio: \n")
+            putStrLn "Nome do laboratorio: \n"
             nomeLaboratorio <-getLine
             putStrLn(Vacina.vacinasPorLaboratorio nomeLaboratorio listaVacinas)
             retornoMenu
             menuVacinasEntradas
         else if atributo == "3" then do
-            putStrLn ("Nome do pais de origem: \n")
-            nomePais <- getLine 
+            putStrLn "Nome do pais de origem: \n"
+            nomePais <- getLine
             putStrLn (Vacina.vacinasPorPaisDeOrigem nomePais listaVacinas)
             retornoMenu
             menuVacinasEntradas
-        else do 
-            menuVacinasEntradas    
+        else
+            menuVacinasEntradas
         retornoMenu
-         -- LISTAR VACINAS POR ATRIBUTO 1. lab, 2. enfermidade, 3. pais de origem
-        
+
+    else if entrada == "6" then do
+        putStrLn "Nome da Vacina: \n"
+        nomeVacina <- getLine
+        system "clear"
+        putStrLn "Quantidade de doses disponiveis para aplicação: "
+        print (show (div (Vacina.pegaEstoque nomeVacina listaVacinas) (Vacina.pegaquantidadeDosesNecessarias nomeVacina listaVacinas)))
+        retornoMenu
+        menuVacinasEntradas
     else do
         putStrLn "Opção inválida."
         menuPrincipal
@@ -145,10 +154,10 @@ menuPacientesEntradas = do
     listaPacientes <- carregaPacientes
     menuPacientes listaPacientes
     textoMenuAnterior
-    entrada <- getLine 
+    entrada <- getLine
     system "clear"
-    if entrada == "1" then do 
-        putStrLn "Cadastrando um Paciente\n" 
+    if entrada == "1" then do
+        putStrLn "Cadastrando um Paciente\n"
         putStrLn "Insina o nome do paciente:"
         nome <- getLine
         putStrLn "Insira o sexo do paciente:"
@@ -158,11 +167,11 @@ menuPacientesEntradas = do
         putStrLn "Insira o CEP do paciente:"
         cep <- getLine
         putStrLn "Insira o bairro do paciente"
-        bairro <- getLine 
+        bairro <- getLine
         putStrLn "Insira a rua do paciente:"
         rua <- getLine
         putStrLn "Insira o numero da residência do paciente "
-        num_residencia <- getLine 
+        num_residencia <- getLine
         putStrLn "Insira a idade do paciente:"
         idade <- getLine
         putStrLn "Insira o telefone do paciente:"
@@ -176,7 +185,7 @@ menuPacientesEntradas = do
         --atualizar paciente
         retornoMenu
         menuPacientesEntradas
-    
+
     else if entrada == "3" then do
         putStrLn "Pacientes cadastrados: \n"
         putStrLn (Paciente.todosOsPacientes listaPacientes)
@@ -202,7 +211,7 @@ menuPacientesEntradas = do
         menuPacientesEntradas
     
 
-    else do 
+    else do
         putStrLn "Opção inválida."
         menuPrincipal
 
@@ -224,10 +233,11 @@ menuVacinacoesEntradas = do
     entrada <- getLine
     system "clear"
 
-    if entrada == "1" then do
+    if entrada == "1" then
         menuAgendacaoVacinas
-    else if entrada == "2" then do
+    else if (entrada == "2") || (entrada == "3") then (do
         retornoMenu
+
         menuVacinacoesEntradas -- pegar data e faixa etaria da vacinacao mais proxima
     else if entrada == "3" then do
         retornoMenu
@@ -242,55 +252,55 @@ menuVacinacoesEntradas = do
         menuVacinacoesEntradas
     else do
         putStrLn("Opção inválida.")
-        menuPrincipal
+        menuPrincipal)
 
 menuAgendacaoVacinas :: IO()
 menuAgendacaoVacinas = do
     listaVacinacoes <- Auxiliar.iniciaVacinacao
     system "clear"
 
-    putStrLn("Agendando Vacinação\n\n")
-    putStrLn("Insira o nome da vacina:")
+    putStrLn"Agendando Vacinação\n\n"
+    putStrLn"Insira o nome da vacina:"
     nomeVacina <- getLine
-    putStrLn("Insira o local:")
+    putStrLn"Insira o local:"
     local <- getLine
-    putStrLn("Insira a data da primeira dose:")
+    putStrLn"Insira a data da primeira dose:"
     dataPrimeiraDose <- getLine
-    putStrLn("Insira a data da segunda dose (caso necessário):")
+    putStrLn"Insira a data da segunda dose (caso necessário):"
     dataSegundaDose <- getLine
-    putStrLn("Insira o horário de início (horas:minutos):")
+    putStrLn"Insira o horário de início (horas:minutos):"
     horarioInicio <- getLine
-    putStrLn("Insira o horário de término (horas:minutos:")
+    putStrLn"Insira o horário de término (horas:minutos:"
     horarioFim <- getLine
-    putStrLn("\nInforme a faixa etária")
-    putStrLn("Começa com a idade:")
+    putStrLn"\nInforme a faixa etária"
+    putStrLn"Começa com a idade:"
     idadeUm <- getLine
-    putStrLn("Vai até a idade:")
+    putStrLn"Vai até a idade:"
     idadeDois <- getLine
-    
+
     Auxiliar.escreverVacinacao(Vacinacao.adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim (read idadeUm) (read idadeDois))
-    putStrLn("Vacinação agendada.")
+    putStrLn"Vacinação agendada."
 
     retornoMenu
     menuVacinacoesEntradas
 
 letreiro :: IO()
-letreiro = do
+letreiro =
     putStrLn("\n"++
-        "                  Sistema de\n"++
-        "                   Controle\n"++
-        "       ___        de Vacinas\n"++
-        "___    | |___________________________\n"++
-        "| |____| |                           |___\n"++
-        "| |____| |       |       |       |   |___|------------\n"++
-        "|_|    | |___|___|___|___|___|___|___|\n"++
-        "       |_|\n\n")
+    "                  Sistema de\n"++
+    "                   Controle\n"++
+    "       ___        de Vacinas\n"++
+    "___    | |___________________________\n"++
+    "| |____| |                           |___\n"++
+    "| |____| |       |       |       |   |___|------------\n"++
+    "|_|    | |___|___|___|___|___|___|___|\n"++
+    "       |_|\n\n")
 
 carregaVacinas:: IO[Vacina.Vacina]
-carregaVacinas = Auxiliar.iniciaVacina 
+carregaVacinas = Auxiliar.iniciaVacina
 
 carregaPacientes:: IO[Paciente.Paciente]
-carregaPacientes = Auxiliar.iniciaPaciente 
+carregaPacientes = Auxiliar.iniciaPaciente
 
 retornoMenu :: IO()
 retornoMenu = do
@@ -300,4 +310,4 @@ retornoMenu = do
     return ()
 
 textoMenuAnterior :: IO()
-textoMenuAnterior = putStrLn("\nPressione ENTER para acessar o menu anterior.")
+textoMenuAnterior = putStrLn"\nPressione ENTER para acessar o menu anterior."
