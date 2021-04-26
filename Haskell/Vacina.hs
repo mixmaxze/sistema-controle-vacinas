@@ -32,6 +32,20 @@ pegaVacina nomeVacina (h:t)
     | nome h == nomeVacina = Just h
     | otherwise = pegaVacina nomeVacina t
 
+pegaEstoque:: String -> [Vacina] -> Int
+pegaEstoque _ [] = 0 
+pegaEstoque nomeVacina (h:t)
+    | nome h == nomeVacina = estoque h  
+    | otherwise  = pegaEstoque nomeVacina t 
+
+pegaquantidadeDosesNecessarias:: String -> [Vacina] -> Int
+pegaquantidadeDosesNecessarias _ [] = 0 
+pegaquantidadeDosesNecessarias nomeVacina (h:t)
+    | nome h == nomeVacina = quantidadeDosesNecessarias h  
+    | otherwise  = pegaquantidadeDosesNecessarias nomeVacina t 
+
+
+
 vacinasPorLaboratorio :: String -> [Vacina] -> String
 vacinasPorLaboratorio _ [] = ""
 vacinasPorLaboratorio nomeLaboratorio (h:t)
