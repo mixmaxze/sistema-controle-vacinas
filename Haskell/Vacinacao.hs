@@ -14,3 +14,10 @@ adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInici
          faixaEtariaInicio = faixaEtariaInicio,
          faixaEtariaFim = faixaEtariaFim
      })
+
+calculaProjecaoVacinacao :: Int -> Int -> Int
+calculaProjecaoVacinacao mediaVacinacaoDiaria totalPacientes 
+                | mediaVacinacaoDiaria > totalPacientes = 1
+                | mod (totalPacientes)  (mediaVacinacaoDiaria) /= 0 = div (totalPacientes) (mediaVacinacaoDiaria) + 1 
+                | otherwise = div (totalPacientes) (mediaVacinacaoDiaria) 
+

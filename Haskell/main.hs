@@ -183,12 +183,16 @@ menuPacientesEntradas = do
         retornoMenu
         menuPacientesEntradas
     else if entrada == "4" then do
+
         putStrLn "Cpf do paciente desejado:\n"
         cpfPaciente <- getLine
         let aux = show (Paciente.pegaIdadePaciente cpfPaciente listaPacientes)
+        
         if aux == "0" then do
 
             putStrLn "Não existe um Paciente com esse cpf cadastrado"
+            retornoMenu
+            menuPacientesEntradas
         
         else do
         
@@ -208,11 +212,13 @@ menuVacinacoes = do
     putStrLn("Menu de Vacinações\n\n" ++
             "1. Agendar Vacinação\n" ++
             "2. Data(s) e faixa etária da atual/próxima vacinação\n" ++
-            "3. Listar próximos pacientes a serem vacinados")
+            "3. Listar próximos pacientes a serem vacinados\n" ++ 
+            "4. Calcular projeção de conclusão de uma vacinação\n")
     return()
 
 menuVacinacoesEntradas :: IO()
 menuVacinacoesEntradas = do
+    listaPacientes <- carregaPacientes
     menuVacinacoes
     textoMenuAnterior
     entrada <- getLine
@@ -226,6 +232,14 @@ menuVacinacoesEntradas = do
     else if entrada == "3" then do
         retornoMenu
         menuVacinacoesEntradas -- listas proximos pacientes a serem vacinados
+    else if entrada == "4" then do
+        putStrLn "Média de vacinação diária:\n"
+        mediaVacinacaoDiaria <- getLine
+        let num_pacientes = Paciente.contaPaciente listaPacientes
+        let dias_Projecao = Vacinacao.calculaProjecaoVacinacao (read mediaVacinacaoDiaria) (num_pacientes)
+        putStrLn (show (dias_Projecao) ++ " Dia(s).")
+        retornoMenu
+        menuVacinacoesEntradas
     else do
         putStrLn("Opção inválida.")
         menuPrincipal

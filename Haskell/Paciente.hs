@@ -30,8 +30,11 @@ todosOsPacientes (h:t) = "Nome: " ++ nome h ++ ", " ++
 
 
 pegaIdadePaciente :: String -> [Paciente] -> Int
-pegaIdadePaciente _ [] = 0 
+pegaIdadePaciente _ [] = 0
 pegaIdadePaciente cpfPaciente (h:t)
     | cpf h == cpfPaciente = idade h
     |otherwise = pegaIdadePaciente cpfPaciente t
 
+contaPaciente :: [Paciente] -> Int
+contaPaciente [] = 0
+contaPaciente lista = length (lista)
