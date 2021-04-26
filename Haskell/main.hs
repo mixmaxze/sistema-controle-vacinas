@@ -146,7 +146,8 @@ menuPacientes listaPacientes = do
     putStrLn("Menu dos Pacientes\n\n" ++
             "1. Cadastrar paciente\n" ++
             "2. Atualizar paciente\n" ++
-            "3. Listar pacientes")
+            "3. Listar pacientes\n" ++
+            "4. Ver situação")
 
 menuPacientesEntradas :: IO()
 menuPacientesEntradas = do
@@ -171,12 +172,12 @@ menuPacientesEntradas = do
         rua <- getLine
         putStrLn "Insira o numero da residência do paciente "
         num_residencia <- getLine
-        putStrLn "Insira a data de nascimento do paciente:"
-        dataNascimento <- getLine
+        putStrLn "Insira a idade do paciente:"
+        idade <- getLine
         putStrLn "Insira o telefone do paciente:"
         telefone <- getLine
 
-        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf cep bairro rua (read num_residencia) dataNascimento telefone)
+        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf cep bairro rua (read num_residencia) (read idade) telefone)
         putStrLn "Paciente cadastrado"
         menuPacientesEntradas
 
@@ -190,6 +191,21 @@ menuPacientesEntradas = do
         putStrLn (Paciente.todosOsPacientes listaPacientes)
         retornoMenu
         menuPacientesEntradas
+    else if entrada == "4" then do
+        putStrLn "Cpf do paciente desejado:\n"
+        cpfPaciente <- getLine
+        let aux = show (Paciente.pegaIdadePaciente cpfPaciente listaPacientes)
+        if aux == "0" then do
+
+            putStrLn "Não existe um Paciente com esse cpf cadastrado"
+        
+        else do
+        
+        putStrLn "Situação paciente: \n"
+        putStrLn aux  
+        retornoMenu
+        menuPacientesEntradas
+    
 
     else do
         putStrLn "Opção inválida."
