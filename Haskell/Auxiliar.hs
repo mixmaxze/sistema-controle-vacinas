@@ -6,7 +6,7 @@ import qualified Vacinacao
 import Data.Map as Map (fromList, Map)
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO.Strict as Strict
+import System.IO as Strict
 
 criaArquivos :: IO()
 criaArquivos = do
@@ -43,7 +43,7 @@ escreverVacina vacina = do
 escreverPaciente:: Paciente.Paciente -> IO()
 escreverPaciente paciente = do
     
-    let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ Paciente.dataNascimento paciente ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
+    let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ show(Paciente.idade paciente) ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
     appendFile "dados/pacientes.txt" pacienteStr
     return ()
 
@@ -85,7 +85,7 @@ constroiPaciente lista =
         Paciente.bairro = lista !! 4,
         Paciente.rua = lista !! 5,
         Paciente.numResidencia =  read (lista !! 6),
-        Paciente.dataNascimento = read (lista !! 7),
+        Paciente.idade = read (lista !! 7),
         Paciente.telefone =  lista !! 8
     }
 
