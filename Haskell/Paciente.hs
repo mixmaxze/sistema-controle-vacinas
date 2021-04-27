@@ -1,17 +1,13 @@
 module Paciente where
 
-data Paciente = Paciente {nome:: String, sexo:: String, cpf::String, cep:: String, bairro:: String, 
-rua::String, numResidencia:: Int, idade:: Int, telefone::String} deriving(Show, Eq)
+data Paciente = Paciente {nome:: String, sexo:: String, cpf::String, endereco:: String, idade:: Int, telefone::String} deriving(Show, Eq)
 
-adicionaPaciente:: String -> String -> String -> String -> String -> String -> Int -> Int -> String -> Paciente
-adicionaPaciente nome sexo cpf cep bairro rua numResidencia idade telefone = 
+adicionaPaciente:: String -> String -> String -> String -> Int -> String -> Paciente
+adicionaPaciente nome sexo cpf endereco idade telefone = 
     (Paciente {nome = nome,
     sexo = sexo,
     cpf = cpf,
-    cep = cep,
-    bairro = bairro,
-    rua = rua,
-    numResidencia = numResidencia,
+    endereco = endereco,
     idade = idade,
     telefone = telefone
 })
@@ -20,12 +16,9 @@ todosOsPacientes:: [Paciente] -> String
 todosOsPacientes [] = ""
 todosOsPacientes (h:t) = "Nome: " ++ nome h ++ ", " ++ 
                         "Sexo: " ++ show(sexo h) ++ ", " ++ 
-                        "CEP: " ++ show(cep h) ++ ", " ++ 
-                        "Bairro: " ++ bairro h ++ ", " ++ 
-                        "Rua: " ++ rua h ++ " " ++ 
-                        "Num. Residência: " ++ show(numResidencia h) ++ ", " ++ 
+                        "Endereço: " ++ show(endereco h) ++ ", " ++ 
                         "Idade: " ++ show(idade h) ++ ", " ++ 
-                        "Telefone: " ++ telefone h ++ 
+                        "Telefone: " ++ telefone h ++ "\n" ++ 
                         todosOsPacientes t
 
 

@@ -164,20 +164,14 @@ menuPacientesEntradas = do
         sexo <- getLine
         putStrLn "Insira o CPF do paciente"
         cpf <- getLine
-        putStrLn "Insira o CEP do paciente:"
-        cep <- getLine
-        putStrLn "Insira o bairro do paciente"
-        bairro <- getLine
-        putStrLn "Insira a rua do paciente:"
-        rua <- getLine
-        putStrLn "Insira o numero da residência do paciente "
-        num_residencia <- getLine
+        putStrLn "Insira o endereco do paciente:"
+        endereco <- getLine
         putStrLn "Insira a idade do paciente:"
         idade <- getLine
         putStrLn "Insira o telefone do paciente:"
         telefone <- getLine
 
-        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf cep bairro rua (read num_residencia) (read idade) telefone)
+        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf (read endereco) (read idade) telefone)
         putStrLn "Paciente cadastrado"
         menuPacientesEntradas
 
@@ -235,10 +229,11 @@ menuVacinacoesEntradas = do
 
     if entrada == "1" then
         menuAgendacaoVacinas
-    else if (entrada == "2") || (entrada == "3") then (do
+    else if (entrada == "2") then do
         retornoMenu
 
         menuVacinacoesEntradas -- pegar data e faixa etaria da vacinacao mais proxima
+    
     else if entrada == "3" then do
         retornoMenu
         menuVacinacoesEntradas -- listas proximos pacientes a serem vacinados
@@ -252,7 +247,7 @@ menuVacinacoesEntradas = do
         menuVacinacoesEntradas
     else do
         putStrLn("Opção inválida.")
-        menuPrincipal)
+        menuPrincipal
 
 menuAgendacaoVacinas :: IO()
 menuAgendacaoVacinas = do

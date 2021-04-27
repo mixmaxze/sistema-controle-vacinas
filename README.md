@@ -29,12 +29,10 @@ A proposta da equipe é desenvolver um sistema para controle de vacinas de um po
 1. Nome
 2. Sexo
 3. CPF
-4. CEP
-5. Bairro/Distrito
-6. Rua
-7. Número da casa
-8. Data de nascimento
-9. Telefone
+4. Endereço
+5. Número da casa
+6. Data de nascimento
+7. Telefone
 
 ### Funcionalidades do sistema:
 
