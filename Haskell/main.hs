@@ -1,9 +1,10 @@
-import System.IO
+{-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
+import System.IO ()
 import System.Process
-import qualified Auxiliar
-import qualified Paciente
 import qualified Vacina
+import qualified Paciente
 import qualified Vacinacao
+import qualified Auxiliar
 
 main :: IO()
 main = do
@@ -18,7 +19,8 @@ menuPrincipal = do
     putStrLn("Informe qual controle deseja acessar:\n\n" ++
             "1. Controle de Vacinas\n" ++
             "2. Controle de Pacientes\n" ++
-            "3. Controle de Vacinações")
+            "3. Controle de Vacinações\n" ++ 
+            "0. Sair do Programa")
     input <- getLine
 
     if input == "1" then
@@ -27,9 +29,12 @@ menuPrincipal = do
         menuPacientesEntradas
     else if input == "3" then
         menuVacinacoesEntradas
+    else if input == "0" then
+        return ()
     else do
         putStrLn "Opção inválida."
         menuPrincipal
+
 
 menuVacinas :: [Vacina.Vacina ] -> IO()
 menuVacinas listaVacinas = do
@@ -152,6 +157,8 @@ menuPacientes listaPacientes = do
 menuPacientesEntradas :: IO()
 menuPacientesEntradas = do
     listaPacientes <- carregaPacientes
+    listaVacinacao <- carregaVacinacao
+    listaVacinas <- carregaVacinas
     menuPacientes listaPacientes
     textoMenuAnterior
     entrada <- getLine
@@ -189,18 +196,20 @@ menuPacientesEntradas = do
 
         putStrLn "Cpf do paciente desejado:\n"
         cpfPaciente <- getLine
-        let aux = show (Paciente.pegaIdadePaciente cpfPaciente listaPacientes)
+        let aux = Paciente.pegaIdadePaciente cpfPaciente listaPacientes
         
-        if aux == "0" then do
+        if aux == 0 then do
 
             putStrLn "Não existe um Paciente com esse cpf cadastrado"
             retornoMenu
             menuPacientesEntradas
         
         else do
+
+            putStrLn "Situação paciente: \n"
+            putStrLn(Vacinacao.checaSituacao aux listaVacinacao)
         
-        putStrLn "Situação paciente: \n"
-        putStrLn aux  
+    
         retornoMenu
         menuPacientesEntradas
     
@@ -267,13 +276,10 @@ menuAgendacaoVacinas = do
     horarioInicio <- getLine
     putStrLn"Insira o horário de término (horas:minutos:"
     horarioFim <- getLine
-    putStrLn"\nInforme a faixa etária"
-    putStrLn"Começa com a idade:"
-    idadeUm <- getLine
-    putStrLn"Vai até a idade:"
-    idadeDois <- getLine
+    putStrLn"\nInforme a faixa etária:"
+    idadeMinima <- getLine
 
-    Auxiliar.escreverVacinacao(Vacinacao.adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim (read idadeUm) (read idadeDois))
+    Auxiliar.escreverVacinacao(Vacinacao.adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim (read idadeMinima))
     putStrLn"Vacinação agendada."
 
     retornoMenu
@@ -296,6 +302,9 @@ carregaVacinas = Auxiliar.iniciaVacina
 
 carregaPacientes:: IO[Paciente.Paciente]
 carregaPacientes = Auxiliar.iniciaPaciente
+
+carregaVacinacao :: IO[Vacinacao.Vacinacao ]
+carregaVacinacao = Auxiliar.iniciaVacinacao 
 
 retornoMenu :: IO()
 retornoMenu = do
