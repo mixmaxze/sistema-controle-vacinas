@@ -1,9 +1,9 @@
 module Vacinacao where
 
-data Vacinacao = Vacinacao {nomeVacina :: String, local :: String, dataPrimeiraDose :: String, dataSegundaDose :: String, horarioInicio :: String, horarioFim :: String, faixaEtariaInicio :: Int, faixaEtariaFim :: Int} deriving(Show, Eq)
+data Vacinacao = Vacinacao {nomeVacina :: String, local :: String, dataPrimeiraDose :: String, dataSegundaDose :: String, horarioInicio :: String, horarioFim :: String, faixaEtaria :: Int } deriving(Show, Eq)
 
-adicionaVacinacao :: String -> String -> String -> String -> String -> String -> Int -> Int -> Vacinacao
-adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim faixaEtariaInicio faixaEtariaFim =
+adicionaVacinacao :: String -> String -> String -> String -> String -> String -> Int -> Vacinacao
+adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim faixaEtaria =
      (Vacinacao {
          nomeVacina = nomeVacina,
          local = local,
@@ -11,8 +11,8 @@ adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInici
          dataSegundaDose = dataSegundaDose,
          horarioInicio = horarioInicio,
          horarioFim = horarioFim,
-         faixaEtariaInicio = faixaEtariaInicio,
-         faixaEtariaFim = faixaEtariaFim
+         faixaEtaria = faixaEtaria
+    
      })
 
 
@@ -21,5 +21,19 @@ calculaProjecaoVacinacao mediaVacinacaoDiaria totalPacientes
                 | mediaVacinacaoDiaria > totalPacientes = 1
                 | mod (totalPacientes)  (mediaVacinacaoDiaria) /= 0 = div (totalPacientes) (mediaVacinacaoDiaria) + 1 
                 | otherwise = div (totalPacientes) (mediaVacinacaoDiaria) 
+
+checaSituacao :: Int -> [Vacinacao]-> String
+checaSituacao _ [] = ""
+checaSituacao idade (h:t)
+                    | idade >= faixaEtaria h && dataSegundaDose h == "" = "O paciente em questão tem sua vacinação da vacina " ++ nomeVacina h ++ " programada para:\n" ++ 
+                                            "Primeira e Única Dose: " ++ dataPrimeiraDose h ++ "\n" ++
+                                            "Das " ++ horarioInicio h ++ " às " ++ horarioFim h ++ "\n" ++ 
+                                             checaSituacao idade t ++ "\n"
+                    | idade >= faixaEtaria h && dataSegundaDose h /= "" = "O paciente em questão tem sua vacinação da vacina " ++ nomeVacina h ++ " programada para:\n" ++ 
+                                            "Primeira Dose: " ++ dataPrimeiraDose h ++ "\n" ++
+                                            "Segunda Dose: " ++ dataSegundaDose h ++ "\n" ++ 
+                                            "Das " ++ horarioInicio h ++ " às " ++ horarioFim h ++ "\n" ++ 
+                                            checaSituacao idade t ++ "\n"
+                    | otherwise = "Paciente não se possui expectativa de vacinação para a vacina " ++ nomeVacina h ++  "ainda. \n" ++ checaSituacao idade t
 
 

@@ -16,7 +16,8 @@ todosOsPacientes:: [Paciente] -> String
 todosOsPacientes [] = ""
 todosOsPacientes (h:t) = "Nome: " ++ nome h ++ ", " ++ 
                         "Sexo: " ++ show(sexo h) ++ ", " ++ 
-                        "Endereço: " ++ show(endereco h) ++ ", " ++ 
+                        "CPF: " ++ cpf h ++ ", " ++ 
+                        "Endereço: " ++ endereco h ++ ", " ++ 
                         "Idade: " ++ show(idade h) ++ ", " ++ 
                         "Telefone: " ++ telefone h ++ "\n" ++ 
                         todosOsPacientes t
