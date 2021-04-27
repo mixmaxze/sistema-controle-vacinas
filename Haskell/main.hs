@@ -19,6 +19,7 @@ menuPrincipal = do
             "1. Controle de Vacinas\n" ++
             "2. Controle de Pacientes\n" ++
             "3. Controle de Vacinações")
+            
     input <- getLine
 
     if input == "1" then

@@ -1,3 +1,3 @@
 Holliver,"M","08491176355","Rua floriano santo antonio 1650",21,083999986059,
 Lucas,"M","12345678901","catole rua 440",20,0,
-Abacate,"M","12345678902","castelo branco rua",4002,25,1,
+Jose,"M","12345678902","castelo branco rua",25,1,
