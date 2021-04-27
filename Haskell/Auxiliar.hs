@@ -36,14 +36,28 @@ iniciaVacinacao = do
 
 escreverVacina:: Vacina.Vacina -> IO()
 escreverVacina vacina = do
-    let vacinaStr = Vacina.nome vacina ++ "," ++ show (Vacina.dataFabricacao vacina) ++ "," ++ show (Vacina.dataValidade vacina) ++ "," ++ Vacina.laboratorio vacina ++ "," ++ show (Vacina.estoque vacina) ++ "," ++ show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ Vacina.enfermidade vacina ++ "," ++ show (Vacina.taxaEficiencia vacina) ++ "," ++ Vacina.seloAprovacao vacina ++ "," ++ Vacina.paisOrigem vacina ++ "\n"
+    let vacinaStr = Vacina.nome vacina ++ "," ++ 
+                show (Vacina.dataFabricacao vacina) ++ "," ++ 
+                show (Vacina.dataValidade vacina) ++ "," ++ 
+                Vacina.laboratorio vacina ++ "," ++ 
+                show (Vacina.estoque vacina) ++ "," ++ 
+                show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ 
+                Vacina.enfermidade vacina ++ "," ++ 
+                show (Vacina.taxaEficiencia vacina) ++ "," ++ 
+                Vacina.seloAprovacao vacina ++ "," ++ 
+                Vacina.paisOrigem vacina ++ "\n"
     appendFile "dados/vacinas.txt" vacinaStr
     return ()
 
 escreverPaciente:: Paciente.Paciente -> IO()
 escreverPaciente paciente = do
     
-    let pacienteStr = Paciente.nome paciente ++ "," ++ show (Paciente.sexo paciente) ++ "," ++ show (Paciente.cpf paciente) ++ "," ++ show (Paciente.cep paciente) ++ "," ++ Paciente.bairro paciente ++ "," ++ Paciente.rua paciente ++ "," ++ show(Paciente.numResidencia paciente) ++ "," ++ show(Paciente.idade paciente) ++ "," ++ Paciente.telefone paciente ++ "," ++ "\n"
+    let pacienteStr = Paciente.nome paciente ++ "," ++ 
+                    show (Paciente.sexo paciente) ++ "," ++ 
+                    show (Paciente.cpf paciente) ++ "," ++ 
+                    show(Paciente.endereco paciente) ++ "," ++ 
+                    show(Paciente.idade paciente) ++ "," ++ 
+                    Paciente.telefone paciente ++ "," ++ "\n"
     appendFile "dados/pacientes.txt" pacienteStr
     return ()
 
@@ -81,12 +95,9 @@ constroiPaciente lista =
         Paciente.nome = lista !! 0,
         Paciente.sexo  =  read (lista !! 1),
         Paciente.cpf =  read (lista !! 2),
-        Paciente.cep =  read (lista !! 3),
-        Paciente.bairro = lista !! 4,
-        Paciente.rua = lista !! 5,
-        Paciente.numResidencia =  read (lista !! 6),
-        Paciente.idade = read (lista !! 7),
-        Paciente.telefone =  lista !! 8
+        Paciente.endereco =  read (lista !! 3),
+        Paciente.idade = read (lista !! 4),
+        Paciente.telefone =  lista !! 5
     }
 
 constroiVacinacao :: [String] -> Vacinacao.Vacinacao
