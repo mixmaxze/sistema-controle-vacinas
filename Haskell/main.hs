@@ -232,9 +232,11 @@ menuVacinacoes = do
     system "clear"
     putStrLn("Menu de Vacinações\n\n" ++
             "1. Agendar Vacinação\n" ++
+
             "2. Listar pacientes a serem vacinados por uma determinada vacina\n" ++ 
             "3. Calcular projeção de conclusão de uma vacinação\n" ++ 
             "0. Sair do Programa\n")
+
     return()
 
 menuVacinacoesEntradas :: IO()
@@ -248,6 +250,7 @@ menuVacinacoesEntradas = do
 
     if entrada == "1" then
         menuAgendacaoVacinas
+        
     else if (entrada == "2") then do
         putStrLn "Nome da vacina:\n"
         nomeVacina <- getLine 
@@ -256,6 +259,7 @@ menuVacinacoesEntradas = do
 
         retornoMenu
         menuVacinacoesEntradas 
+
     else if entrada == "3" then do
         putStrLn "Média de vacinação diária:\n"
         mediaVacinacaoDiaria <- getLine

@@ -34,6 +34,16 @@ A proposta da equipe é desenvolver um sistema para controle de vacinas de um po
 6. Data de nascimento
 7. Telefone
 
+### Atributos da Vacinação
+
+1. Nome da Vacina
+2. Local
+3. Data da primeira dose 
+4. Data da segunda dose
+5. Horario de inicio 
+6. Horario de fim
+7. Faixa etaria
+
 ### Funcionalidades do sistema:
 
 1. Cadastrar vacina
@@ -47,6 +57,6 @@ A proposta da equipe é desenvolver um sistema para controle de vacinas de um po
 9. Atualizar paciente
 10. Listar pacientes
 11. Agendar vacinações (com datas da primeira e segunda dose e faixa etária)
-12. Avisar ao paciente quando será sua faixa de idade para tomar primeira e segunda dose
+12. Paciente pode checar quando será sua faixa de idade para tomar primeira e segunda dose
 13. Aviso próxima vacinação 
 14. Projeção de término da vacinação 
