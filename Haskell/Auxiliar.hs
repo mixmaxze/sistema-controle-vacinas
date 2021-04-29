@@ -6,7 +6,7 @@ import qualified Vacinacao
 import Data.Map as Map (fromList, Map)
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO as Strict ( readFile )
+import System.IO.Strict as Strict ( readFile )
 
 criaArquivos :: IO()
 criaArquivos = do
@@ -42,7 +42,7 @@ escreverVacina vacina = do
                 Vacina.laboratorio vacina ++ "," ++ 
                 show (Vacina.estoque vacina) ++ "," ++ 
                 show (Vacina.quantidadeDosesNecessarias vacina) ++ "," ++ 
-                Vacina.enfermidade vacina ++ "," ++ 
+                show (Vacina.enfermidade vacina) ++ "," ++ 
                 show (Vacina.taxaEficiencia vacina) ++ "," ++ 
                 Vacina.seloAprovacao vacina ++ "," ++ 
                 Vacina.paisOrigem vacina ++ "\n"
@@ -57,7 +57,7 @@ escreverPaciente paciente = do
                     show (Paciente.cpf paciente) ++ "," ++ 
                     show(Paciente.endereco paciente) ++ "," ++ 
                     show(Paciente.idade paciente) ++ "," ++ 
-                    Paciente.telefone paciente ++ "," ++ "\n"
+                    show (Paciente.telefone paciente) ++ "," ++ "\n"
     appendFile "dados/pacientes.txt" pacienteStr
     return ()
 
@@ -110,3 +110,64 @@ constroiVacinacao lista =
         Vacinacao.horarioFim  = lista !! 5,
         Vacinacao.faixaEtaria = read (lista !! 6)
     }
+
+escreverPacientes :: [Paciente.Paciente] -> IO()
+escreverPacientes [] = return ()
+escreverPacientes (h:t) = do   
+    let pacienteStr = Paciente.nome h ++ "," ++  show (Paciente.sexo h) ++ "," ++ show (Paciente.cpf h) ++ "," ++ show(Paciente.endereco h) ++ "," ++ show(Paciente.idade h) ++ "," ++ Paciente.telefone h ++ "," ++ "\n"
+    appendFile "dados/pacientes.txt" pacienteStr
+    escreverPacientes t
+    return ()
+
+reescreverPacientes :: [Paciente.Paciente] -> IO()
+reescreverPacientes pacientes = do
+    writeFile "dados/pacientes.txt" ("")
+    escreverPacientes pacientes
+    return()
+
+
+pegaOpcaoRetornaListaPaciente :: String -> String -> String -> [Paciente.Paciente] -> IO()
+pegaOpcaoRetornaListaPaciente opcao cpf novoValor lista 
+    | (opcao == "1") = reescreverPacientes(Paciente.atualizaNomePaciente cpf lista novoValor )
+    | (opcao == "2") = reescreverPacientes(Paciente.atualizaSexoPaciente cpf lista novoValor )
+    | (opcao == "3") = reescreverPacientes(Paciente.atualizaTelefonePaciente cpf lista novoValor )
+    | (opcao == "4") = reescreverPacientes(Paciente.atualizaEnderecoPaciente cpf lista novoValor )
+    | (opcao == "5") = reescreverPacientes(Paciente.atualizaIdadePaciente cpf lista (read novoValor) )
+    | otherwise = return ()
+
+escreverVacinas :: [Vacina.Vacina] -> IO()
+escreverVacinas [] = return ()
+escreverVacinas (h:t) = do   
+    let vacinaStr = Vacina.nome h ++ "," ++ 
+                show (Vacina.dataFabricacao h) ++ "," ++ 
+                show (Vacina.dataValidade h) ++ "," ++ 
+                Vacina.laboratorio h ++ "," ++ 
+                show (Vacina.estoque h) ++ "," ++ 
+                show (Vacina.quantidadeDosesNecessarias h) ++ "," ++ 
+                Vacina.enfermidade h ++ "," ++ 
+                show (Vacina.taxaEficiencia h) ++ "," ++ 
+                Vacina.seloAprovacao h ++ "," ++ 
+                Vacina.paisOrigem h ++ "\n"
+    appendFile "dados/vacinas.txt" vacinaStr
+    escreverVacinas t
+    return ()
+
+reescreverVacinas :: [Vacina.Vacina] -> IO()
+reescreverVacinas vacinas = do
+    writeFile "dados/vacinas.txt" ("")
+    escreverVacinas vacinas
+    return()
+
+pegaOpcaoRetornaListaVacinas :: String -> String -> String -> [Vacina.Vacina] -> IO()
+pegaOpcaoRetornaListaVacinas opcao nomeVacina novoValor lista 
+    | (opcao == "1") = reescreverVacinas(Vacina.atualizaDataFabricacao nomeVacina lista novoValor)
+    | (opcao == "2") = reescreverVacinas(Vacina.atualizaDataValidade nomeVacina lista novoValor)
+    | (opcao == "3") = reescreverVacinas(Vacina.atualizarLaboratorio nomeVacina lista novoValor)
+    | (opcao == "4") = reescreverVacinas(Vacina.atualizaEstoque nomeVacina lista ( read novoValor))
+    | (opcao == "5") = reescreverVacinas(Vacina.atualizaDosesNecessarias nomeVacina lista ( read novoValor))
+    | (opcao == "6") = reescreverVacinas(Vacina.atualizaEnfermidade nomeVacina lista novoValor)
+    | (opcao == "7") = reescreverVacinas(Vacina.atualizaTaxaEficiencia nomeVacina lista (read novoValor))
+    | (opcao == "8") = reescreverVacinas(Vacina.atualizaSeloAprovacao nomeVacina lista novoValor)
+    | (opcao == "9") = reescreverVacinas(Vacina.atualizaPaisOrigem nomeVacina lista novoValor)
+    | otherwise = return ()
+
