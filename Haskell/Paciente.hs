@@ -32,3 +32,9 @@ pegaIdadePaciente cpfPaciente (h:t)
 contaPaciente :: [Paciente] -> Int
 contaPaciente [] = 0
 contaPaciente lista = length (lista)
+
+pegaPacientesHabilitados :: Int -> [Paciente] -> String
+pegaPacientesHabilitados _ [] = ""
+pegaPacientesHabilitados faixaEtaria (h:t)
+                        | idade h >= faixaEtaria = "Nome: | " ++ nome h ++ " | Telefone: | " ++ telefone h ++ " | Sexo: " ++ sexo h ++ "\n" ++ pegaPacientesHabilitados faixaEtaria t ++ "\n"
+                        | otherwise = pegaPacientesHabilitados faixaEtaria t ++ "\n"

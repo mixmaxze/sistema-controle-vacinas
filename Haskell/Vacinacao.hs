@@ -34,6 +34,11 @@ checaSituacao idade (h:t)
                                             "Segunda Dose: " ++ dataSegundaDose h ++ "\n" ++ 
                                             "Das " ++ horarioInicio h ++ " às " ++ horarioFim h ++ "\n" ++ 
                                             checaSituacao idade t ++ "\n"
-                    | otherwise = "Paciente não se possui expectativa de vacinação para a vacina " ++ nomeVacina h ++  "ainda. \n" ++ checaSituacao idade t
+                    | otherwise = "Paciente não possui expectativa de vacinação para a vacina " ++ nomeVacina h ++  "ainda. \n" ++ checaSituacao idade t
 
 
+pegaFaixaEtatariaVacinacao :: String -> [Vacinacao] -> Int
+pegaFaixaEtatariaVacinacao _ [] = 0
+pegaFaixaEtatariaVacinacao nomeDaVacina (h:t)
+                        | nomeDaVacina == nomeVacina h = faixaEtaria h
+                        | otherwise = pegaFaixaEtatariaVacinacao nomeDaVacina t

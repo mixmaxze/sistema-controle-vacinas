@@ -1,5 +1,4 @@
-{-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
-import System.IO ()
+import System.IO (hGetLine)
 import System.Process
 import qualified Vacina
 import qualified Paciente
@@ -33,6 +32,7 @@ menuPrincipal = do
         return ()
     else do
         putStrLn "Opção inválida."
+      
         menuPrincipal
 
 
@@ -46,7 +46,8 @@ menuVacinas listaVacinas = do
             "3. Listar vacinas em estoque\n" ++
             "4. Listar todas as vacinas do sistema\n" ++
             "5. Listar vacinas por atributo\n" ++
-            "6. Doses disponiveis para aplicação ")
+            "6. Doses disponiveis para aplicação\n" ++ 
+            "0. Sair do Programa")
 
 
 menuVacinasEntradas :: IO()
@@ -141,6 +142,10 @@ menuVacinasEntradas = do
         print (show (div (Vacina.pegaEstoque nomeVacina listaVacinas) (Vacina.pegaquantidadeDosesNecessarias nomeVacina listaVacinas)))
         retornoMenu
         menuVacinasEntradas
+    
+    else if entrada == "0" then do
+        return ()
+    
     else do
         putStrLn "Opção inválida."
         menuPrincipal
@@ -152,7 +157,8 @@ menuPacientes listaPacientes = do
             "1. Cadastrar paciente\n" ++
             "2. Atualizar paciente\n" ++
             "3. Listar pacientes\n" ++
-            "4. Ver situação")
+            "4. Ver situação\n" ++
+            "0. Sair do Programa")
 
 menuPacientesEntradas :: IO()
 menuPacientesEntradas = do
@@ -178,7 +184,7 @@ menuPacientesEntradas = do
         putStrLn "Insira o telefone do paciente:"
         telefone <- getLine
 
-        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf (read endereco) (read idade) telefone)
+        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf  endereco (read idade) telefone)
         putStrLn "Paciente cadastrado"
         menuPacientesEntradas
 
@@ -214,6 +220,9 @@ menuPacientesEntradas = do
         menuPacientesEntradas
     
 
+    else if entrada == "0" then do
+        return ()
+
     else do
         putStrLn "Opção inválida."
         menuPrincipal
@@ -223,13 +232,17 @@ menuVacinacoes = do
     system "clear"
     putStrLn("Menu de Vacinações\n\n" ++
             "1. Agendar Vacinação\n" ++
-            "2. Listar próximos pacientes a serem vacinados\n" ++ 
-            "3. Calcular projeção de conclusão de uma vacinação\n")
+
+            "2. Listar pacientes a serem vacinados por uma determinada vacina\n" ++ 
+            "3. Calcular projeção de conclusão de uma vacinação\n" ++ 
+            "0. Sair do Programa\n")
+
     return()
 
 menuVacinacoesEntradas :: IO()
 menuVacinacoesEntradas = do
     listaPacientes <- carregaPacientes
+    listaVacinacoes <- carregaVacinacao
     menuVacinacoes
     textoMenuAnterior
     entrada <- getLine
@@ -237,9 +250,16 @@ menuVacinacoesEntradas = do
 
     if entrada == "1" then
         menuAgendacaoVacinas
-    else if entrada == "2" then do
+        
+    else if (entrada == "2") then do
+        putStrLn "Nome da vacina:\n"
+        nomeVacina <- getLine 
+        let faixaEtaria = Vacinacao.pegaFaixaEtatariaVacinacao nomeVacina listaVacinacoes 
+        putStrLn (Paciente.pegaPacientesHabilitados faixaEtaria listaPacientes)
+
         retornoMenu
-        menuVacinacoesEntradas -- listas proximos pacientes a serem vacinados
+        menuVacinacoesEntradas 
+
     else if entrada == "3" then do
         putStrLn "Média de vacinação diária:\n"
         mediaVacinacaoDiaria <- getLine
@@ -248,6 +268,10 @@ menuVacinacoesEntradas = do
         putStrLn (show (dias_Projecao) ++ " Dia(s).")
         retornoMenu
         menuVacinacoesEntradas
+   
+    else if entrada == "0" then do 
+        return ()
+   
     else do
         putStrLn("Opção inválida.")
         menuPrincipal

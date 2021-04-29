@@ -6,7 +6,7 @@ import qualified Vacinacao
 import Data.Map as Map (fromList, Map)
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO as Strict
+import System.IO as Strict ( readFile )
 
 criaArquivos :: IO()
 criaArquivos = do

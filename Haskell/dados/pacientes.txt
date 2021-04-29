@@ -1,4 +1,4 @@
 Holliver,"M","08491176355","Rua floriano santo antonio 1650",21,"083999986059",
 Lucas,"M","12345678901","catole rua 440",20,"0",
 Abacate,"M","12345678902","castelo branco rua",25,"1",
-Vei Gaga, "M","12345678903","casa dele",80,"2"
+Vei Gaga, "M","12345678903","casa dele",80,"2",
