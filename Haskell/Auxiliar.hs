@@ -69,8 +69,7 @@ escreverVacinacao vacinacao = do
                     Vacinacao.dataSegundaDose vacinacao ++ "," ++
                     Vacinacao.horarioInicio vacinacao ++ "," ++
                     Vacinacao.horarioFim vacinacao ++ "," ++
-                    show (Vacinacao.faixaEtariaInicio vacinacao) ++ "," ++
-                    show (Vacinacao.faixaEtariaFim vacinacao) ++ "," ++ "\n"
+                    show (Vacinacao.faixaEtaria vacinacao) ++ "," ++ "\n"
     appendFile "dados/vacinações.txt" vacinacaoStr
     return()
 
@@ -109,6 +108,5 @@ constroiVacinacao lista =
         Vacinacao.dataSegundaDose  = lista !! 3,
         Vacinacao.horarioInicio  = lista !! 4,
         Vacinacao.horarioFim  = lista !! 5,
-        Vacinacao.faixaEtariaInicio = read (lista !! 6),
-        Vacinacao.faixaEtariaFim  = read (lista !! 7)
+        Vacinacao.faixaEtaria = read (lista !! 6)
     }
