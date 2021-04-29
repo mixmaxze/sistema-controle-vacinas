@@ -223,9 +223,8 @@ menuVacinacoes = do
     system "clear"
     putStrLn("Menu de Vacinações\n\n" ++
             "1. Agendar Vacinação\n" ++
-            "2. Data(s) e faixa etária da atual/próxima vacinação\n" ++
-            "3. Listar próximos pacientes a serem vacinados\n" ++ 
-            "4. Calcular projeção de conclusão de uma vacinação\n")
+            "2. Listar próximos pacientes a serem vacinados\n" ++ 
+            "3. Calcular projeção de conclusão de uma vacinação\n")
     return()
 
 menuVacinacoesEntradas :: IO()
@@ -238,15 +237,10 @@ menuVacinacoesEntradas = do
 
     if entrada == "1" then
         menuAgendacaoVacinas
-    else if (entrada == "2") then do
-        retornoMenu
-
-        menuVacinacoesEntradas -- pegar data e faixa etaria da vacinacao mais proxima
-    
-    else if entrada == "3" then do
+    else if entrada == "2" then do
         retornoMenu
         menuVacinacoesEntradas -- listas proximos pacientes a serem vacinados
-    else if entrada == "4" then do
+    else if entrada == "3" then do
         putStrLn "Média de vacinação diária:\n"
         mediaVacinacaoDiaria <- getLine
         let num_pacientes = Paciente.contaPaciente listaPacientes
