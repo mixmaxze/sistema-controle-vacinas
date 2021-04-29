@@ -1,4 +1,5 @@
-import System.IO (hGetLine)
+import Data.Char
+import System.IO
 import System.Process
 import qualified Vacina
 import qualified Paciente
@@ -47,8 +48,8 @@ menuVacinas listaVacinas = do
             "4. Listar todas as vacinas do sistema\n" ++
             "5. Listar vacinas por atributo\n" ++
             "6. Doses disponiveis para aplicação\n" ++ 
+            "7. Atualizar Vacina\n" ++
             "0. Sair do Programa")
-
 
 menuVacinasEntradas :: IO()
 menuVacinasEntradas = do
@@ -143,6 +144,30 @@ menuVacinasEntradas = do
         retornoMenu
         menuVacinasEntradas
     
+    else if entrada == "7" then do
+        putStrLn "Atualizando Vacina\n"
+        putStrLn "Insira o nome da Vacina:\n"
+        nomeVacina <- getLine
+        system "clear"
+        putStrLn("Escolha o que deseja atualizar:\n\n" ++
+            "1. Atualizar a data de fabricação\n" ++
+            "2. Atualizar a data de validade\n" ++
+            "3. Atualizar o laboratório \n" ++
+            "4. Atualizar o estoque\n" ++
+            "5. Atualizar a quantidade de doses necessárias\n" ++
+            "6. Atualizar a enfermidade\n" ++
+            "7. Atualizar a taxa de efuciência\n" ++
+            "8. Atualizar o selo de aprovação\n" ++
+            "9. Atualizar o país de origem")
+        putStrLn "Insira a opcao"
+        opcao <- getLine
+        putStrLn "Insira o novo valor"
+        novoValor <- getLine 
+
+        Auxiliar.pegaOpcaoRetornaListaVacinas opcao nomeVacina novoValor listaVacinas       
+        retornoMenu
+        menuVacinasEntradas
+
     else if entrada == "0" then do
         return ()
     
@@ -184,12 +209,28 @@ menuPacientesEntradas = do
         putStrLn "Insira o telefone do paciente:"
         telefone <- getLine
 
-        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome sexo cpf  endereco (read idade) telefone)
-        putStrLn "Paciente cadastrado"
+        Auxiliar.escreverPaciente(Paciente.adicionaPaciente nome (map toUpper sexo) cpf  endereco (read idade) telefone)
+        putStrLn "\nPaciente cadastrado"
+        retornoMenu
         menuPacientesEntradas
 
     else if entrada == "2" then do
-        --atualizar paciente
+        putStrLn "Atualizando um Paciente\n"
+        putStrLn "Insira o CPF do paciente"
+        cpf <- getLine
+        system "clear"
+        putStrLn("Escolha o que deseja atualizar:\n\n" ++
+            "1. Atualizar o nome\n" ++
+            "2. Atualizar o sexo\n" ++
+            "3. Atualizar o telefone\n" ++
+            "4. Atualizar o endereco\n" ++
+            "5. Atualizar a idade")
+        putStrLn "Insira a opcao"
+        opcao <- getLine
+        putStrLn "Insira o novo valor"
+        nome <- getLine        
+
+        Auxiliar.pegaOpcaoRetornaListaPaciente opcao cpf nome listaPacientes
         retornoMenu
         menuPacientesEntradas
 
@@ -232,7 +273,6 @@ menuVacinacoes = do
     system "clear"
     putStrLn("Menu de Vacinações\n\n" ++
             "1. Agendar Vacinação\n" ++
-
             "2. Listar pacientes a serem vacinados por uma determinada vacina\n" ++ 
             "3. Calcular projeção de conclusão de uma vacinação\n" ++ 
             "0. Sair do Programa\n")
@@ -242,6 +282,7 @@ menuVacinacoes = do
 menuVacinacoesEntradas :: IO()
 menuVacinacoesEntradas = do
     listaPacientes <- carregaPacientes
+    listaVacinas <- carregaVacinas
     listaVacinacoes <- carregaVacinacao
     menuVacinacoes
     textoMenuAnterior
@@ -263,11 +304,19 @@ menuVacinacoesEntradas = do
     else if entrada == "3" then do
         putStrLn "Média de vacinação diária:\n"
         mediaVacinacaoDiaria <- getLine
-        let num_pacientes = Paciente.contaPaciente listaPacientes
-        let dias_Projecao = Vacinacao.calculaProjecaoVacinacao (read mediaVacinacaoDiaria) (num_pacientes)
-        putStrLn (show (dias_Projecao) ++ " Dia(s).")
-        retornoMenu
-        menuVacinacoesEntradas
+        putStrLn "Informa o nome da vacina:\n"
+        nomeVacina <- getLine
+
+        let estoqueVacina = Vacina.pegaEstoque nomeVacina listaVacinas
+        if estoqueVacina == 0 then do
+            putStrLn "\nEssa vacina não possui doses disponíveis."
+            retornoMenu
+            menuVacinacoesEntradas
+        else do
+            let diasProjecao = Vacinacao.calculaProjecaoVacinacao (read mediaVacinacaoDiaria) (estoqueVacina)
+            putStrLn (show (diasProjecao) ++ " Dia(s).")
+            retornoMenu
+            menuVacinacoesEntradas
    
     else if entrada == "0" then do 
         return ()
@@ -298,8 +347,7 @@ menuAgendacaoVacinas = do
     idadeMinima <- getLine
 
     Auxiliar.escreverVacinacao(Vacinacao.adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInicio horarioFim (read idadeMinima))
-    putStrLn"Vacinação agendada."
-
+    putStrLn"\nVacinação agendada."
     retornoMenu
     menuVacinacoesEntradas
 
