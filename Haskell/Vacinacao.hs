@@ -12,7 +12,6 @@ adicionaVacinacao nomeVacina local dataPrimeiraDose dataSegundaDose horarioInici
          horarioInicio = horarioInicio,
          horarioFim = horarioFim,
          faixaEtaria = faixaEtaria
-    
      })
 
 
@@ -27,14 +26,14 @@ checaSituacao _ [] = ""
 checaSituacao idade (h:t)
                     | idade >= faixaEtaria h && dataSegundaDose h == "" = "O paciente em questão tem sua vacinação da vacina " ++ nomeVacina h ++ " programada para:\n" ++ 
                                             "Primeira e Única Dose: " ++ dataPrimeiraDose h ++ "\n" ++
-                                            "Das " ++ horarioInicio h ++ " às " ++ horarioFim h ++ "\n" ++ 
+                                            "Das " ++ horarioInicio h ++ " às" ++ horarioFim h ++ "\n" ++ 
                                              checaSituacao idade t ++ "\n"
                     | idade >= faixaEtaria h && dataSegundaDose h /= "" = "O paciente em questão tem sua vacinação da vacina " ++ nomeVacina h ++ " programada para:\n" ++ 
                                             "Primeira Dose: " ++ dataPrimeiraDose h ++ "\n" ++
                                             "Segunda Dose: " ++ dataSegundaDose h ++ "\n" ++ 
                                             "Das " ++ horarioInicio h ++ " às " ++ horarioFim h ++ "\n" ++ 
                                             checaSituacao idade t ++ "\n"
-                    | otherwise = "Paciente não possui expectativa de vacinação para a vacina " ++ nomeVacina h ++  "ainda. \n" ++ checaSituacao idade t
+                    | otherwise = "Paciente não possui expectativa de vacinação para a vacina " ++ nomeVacina h ++  " ainda. \n\n" ++ checaSituacao idade t
 
 
 pegaFaixaEtatariaVacinacao :: String -> [Vacinacao] -> Int
