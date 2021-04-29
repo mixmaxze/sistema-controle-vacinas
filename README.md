@@ -3,7 +3,7 @@
 Projeto feito para a disciplina Paradigmas de Linguagem de Programação.
 
 ## Proposta:
-A proposta da equipe é desenvolver um sistema para controle de vacinas de um posto de vacinação, tendo em vista a atual situação em que estamos vivendo. Ele servirá para salvar informações básicas sobre as vacinas armazenadas e pacientes envolvidos, e para agendar e realizar vacinações. 
+A proposta da equipe é desenvolver um sistema para controle de vacinas de um posto de vacinação, tendo em vista a atual situação em que estamos vivendo. Ele servirá para salvar informações básicas sobre as vacinas armazenadas e pacientes envolvidos, e para agendar vacinações. 
 
 ## Alunos envolvidos: 
 - Holliver De Oliveira Costa
