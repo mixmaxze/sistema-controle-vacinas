@@ -148,8 +148,7 @@ menuVacinasEntradas = do
         putStrLn "Atualizando Vacina\n"
         putStrLn "Insira o nome da Vacina:\n"
         nomeVacina <- getLine
-        system "clear"
-        putStrLn("Escolha o que deseja atualizar:\n\n" ++
+        putStrLn("\nEscolha o que deseja atualizar:\n\n" ++
             "1. Atualizar a data de fabricação\n" ++
             "2. Atualizar a data de validade\n" ++
             "3. Atualizar o laboratório \n" ++
@@ -218,8 +217,8 @@ menuPacientesEntradas = do
         putStrLn "Atualizando um Paciente\n"
         putStrLn "Insira o CPF do paciente"
         cpf <- getLine
-        system "clear"
-        putStrLn("Escolha o que deseja atualizar:\n\n" ++
+        
+        putStrLn("\nEscolha o que deseja atualizar:\n\n" ++
             "1. Atualizar o nome\n" ++
             "2. Atualizar o sexo\n" ++
             "3. Atualizar o telefone\n" ++
