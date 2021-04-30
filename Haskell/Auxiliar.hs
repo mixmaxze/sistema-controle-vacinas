@@ -7,7 +7,7 @@ import Data.Map as Map (fromList, Map)
 import Data.Char
 import Data.List
 import Data.List.Split (splitOn)
-import System.IO as Strict ( readFile )
+import System.IO.Strict as Strict ( readFile )
 
 criaArquivos :: IO()
 criaArquivos = do
