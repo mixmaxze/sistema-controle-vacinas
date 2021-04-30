@@ -2,3 +2,4 @@ CoronaVac,"22/04/2021","22/05/2021",butantan,1000,1,"covid19",78,aprovado,china
 Gripe,"22/04/2021","22/05/2021",prosangue,0,1,"gripe",100,aprovado,brasil
 febre amarela,"22/04/2021","22/05/2021",fdiniz,10000,2,"febre amarela",99,aprovado,brasil
 Johnson&Johnson,"08/04/2020","08/09/2022",Pfizer,800000,2,"covid",90,anvisa,Eslovaquia
+teste,"20/02/2020","20/02/2021",lab,1000,2,"o\DELa",90,selo,brasil
