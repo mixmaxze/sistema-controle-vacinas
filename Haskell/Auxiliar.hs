@@ -4,6 +4,7 @@ import qualified Vacina
 import qualified Paciente
 import qualified Vacinacao
 import Data.Map as Map (fromList, Map)
+import Data.Char
 import Data.List
 import Data.List.Split (splitOn)
 import System.IO.Strict as Strict ( readFile )
@@ -129,7 +130,7 @@ reescreverPacientes pacientes = do
 pegaOpcaoRetornaListaPaciente :: String -> String -> String -> [Paciente.Paciente] -> IO()
 pegaOpcaoRetornaListaPaciente opcao cpf novoValor lista 
     | (opcao == "1") = reescreverPacientes(Paciente.atualizaNomePaciente cpf lista novoValor )
-    | (opcao == "2") = reescreverPacientes(Paciente.atualizaSexoPaciente cpf lista novoValor )
+    | (opcao == "2") = reescreverPacientes(Paciente.atualizaSexoPaciente cpf lista (map toUpper novoValor) )
     | (opcao == "3") = reescreverPacientes(Paciente.atualizaTelefonePaciente cpf lista novoValor )
     | (opcao == "4") = reescreverPacientes(Paciente.atualizaEnderecoPaciente cpf lista novoValor )
     | (opcao == "5") = reescreverPacientes(Paciente.atualizaIdadePaciente cpf lista (read novoValor) )

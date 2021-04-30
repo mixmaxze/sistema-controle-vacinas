@@ -40,29 +40,29 @@ pegaPacientesHabilitados faixaEtaria (h:t)
 atualizaEnderecoPaciente :: String -> [Paciente] -> String -> [Paciente]
 atualizaEnderecoPaciente cpfPaciente [] novoEndereco = []
 atualizaEnderecoPaciente cpfPaciente (h:t) novoEndereco 
-    | isInfixOf (cpfPaciente) (cpf h) == True = ((Paciente(nome h) (sexo h) (cpf h) (novoEndereco) (idade h) (telefone h)) : t)
+    | cpfPaciente == cpf h = ((Paciente(nome h) (sexo h) (cpf h) (novoEndereco) (idade h) (telefone h)) : t)
     | otherwise =  (h: atualizaEnderecoPaciente cpfPaciente t novoEndereco)
 
 atualizaNomePaciente :: String -> [Paciente] -> String -> [Paciente]
 atualizaNomePaciente cpfPaciente [] novoValor = []
 atualizaNomePaciente cpfPaciente (h:t) novoValor 
-    | isInfixOf (cpfPaciente) (cpf h) == True = ((Paciente(novoValor) (sexo h) (cpf h) (endereco h) (idade h) (telefone h)) : t)
+    | cpfPaciente ==  cpf h = ((Paciente(novoValor) (sexo h) (cpf h) (endereco h) (idade h) (telefone h)) : t)
     | otherwise =  (h: atualizaNomePaciente cpfPaciente t novoValor)
 
 atualizaSexoPaciente :: String -> [Paciente] -> String -> [Paciente]
 atualizaSexoPaciente cpfPaciente [] novoValor = []
 atualizaSexoPaciente cpfPaciente (h:t) novoValor 
-    | isInfixOf (cpfPaciente) (cpf h) == True = ((Paciente(nome h) (novoValor) (cpf h) (endereco h) (idade h) (telefone h)) : t)
+    | cpfPaciente == cpf h = ((Paciente(nome h) (novoValor) (cpf h) (endereco h) (idade h) (telefone h)) : t)
     | otherwise =  (h: atualizaSexoPaciente cpfPaciente t novoValor)
 
 atualizaTelefonePaciente :: String -> [Paciente] -> String -> [Paciente]
 atualizaTelefonePaciente cpfPaciente [] novoValor = []
 atualizaTelefonePaciente cpfPaciente (h:t) novoValor 
-    | isInfixOf (cpfPaciente) (cpf h) == True = ((Paciente(nome h) (sexo h) (cpf h) (endereco h) (idade h) (novoValor)) : t)
+    | cpfPaciente == cpf h = ((Paciente(nome h) (sexo h) (cpf h) (endereco h) (idade h) (novoValor)) : t)
     | otherwise =  (h: atualizaTelefonePaciente cpfPaciente t novoValor)
 
 atualizaIdadePaciente :: String -> [Paciente] -> Int -> [Paciente]
 atualizaIdadePaciente cpfPaciente [] novoValor = []
 atualizaIdadePaciente cpfPaciente (h:t) novoValor 
-    | isInfixOf (cpfPaciente) (cpf h) == True = ((Paciente(nome h) (sexo h) (cpf h) (endereco h) (novoValor) (telefone h)) : t)
+    | cpfPaciente == cpf h = ((Paciente(nome h) (sexo h) (cpf h) (endereco h) (novoValor) (telefone h)) : t)
     | otherwise =  (h: atualizaIdadePaciente cpfPaciente t novoValor)
