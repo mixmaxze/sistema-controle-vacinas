@@ -1,4 +1,5 @@
 :- include('Vacina.pl').
+:- dynamic constroiVacina/10, read_file/2.
 
 salvaVacina(ListaVacinas):-
     open('dados/Vacinas.txt',write, ArquivoVacinas),
