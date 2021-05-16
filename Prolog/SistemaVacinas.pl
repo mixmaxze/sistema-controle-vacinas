@@ -1,5 +1,9 @@
 :- include('Vacina.pl').
+:- include('Paciente.pl').
+:- include('Vacinacao.pl').
 :- include('Persistencia.pl').
+:- style_check(-singleton).
+:- style_check(-discontiguous).
 :- initialization(main).
 
 main:-
@@ -8,7 +12,7 @@ main:-
 
 menuPrincipal(0):-
     tty_clear,
-    write('
+    write('               
                           Sistema de
                            Controle
                ___        de Vacinas
@@ -21,7 +25,7 @@ menuPrincipal(0):-
     write('1. Controle de Vacinas'),nl,
     write('2. Controle de Pacientes'),nl,
     write('3. Controle de Vacinações'),nl,
-    read(Numero),
+    readNumber(Numero),
     menuPrincipal(Numero).
 
 menuPrincipal(1):-
@@ -47,7 +51,7 @@ menuVacinas(-1):-
     write('6. Doses disponiveis para aplicação'), nl,
     write('7. Atualizar Vacina'),nl,
     write('0. Voltar para o menu principal'), nl,
-    read(Numero),
+    readNumber(Numero),
     menuVacinas(Numero).
 
 menuVacinas(0) :-
@@ -56,49 +60,55 @@ menuVacinas(0) :-
 menuVacinas(1):-
     tty_clear,
     write('Cadastrando uma vacina'),nl,
-    write('Insina o nome da vacina:'),
-    read(Nome),
-    write('Insira a data de fabricação da vacina:'),
-    read(Fabricacao),
-    write('Insira a data de validade da vacina:'),
-    read(Validade),
-    write('Insira o laboratório que forneceu a vacina:'),
-    read(Laboratorio),
-    write('Insira a quantidade de vacinas fornecidas:'),
-    read(Quantidade),
-    write('Insira a quantidade de doses necessarias da vacina:'),
-    read(QuantidadeDoses),
-    write('Insira a doença associada:'),
-    read(Doenca),
-    write('Insira a taxa de eficiência da vacina:'),
-    read(Eficiencia),
-    write('Insira o selo de aprovação da vacina:'),
-    read(Selo),
-    write('Insira o pais de origem da vacina:'),
-    read(Pais),
-    constroiVacina(Nome,Fabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
+    write('Insina o nome da vacina: '),
+    readString(Nome),
+    write('Insira a data de fabricação da vacina: '),
+    readString(DataFabricacao),
+    write('Insira a data de validade da vacina: '),
+    readString(Validade),
+    write('Insira o laboratório que forneceu a vacina: '),
+    readString(Laboratorio),
+    write('Insira a quantidade de vacinas fornecidas: '),
+    readNumber(Quantidade),
+    write('Insira a quantidade de doses necessarias da vacina: '),
+    readNumber(QuantidadeDoses),
+    write('Insira a doença associada: '),
+    readString(Doenca),
+    write('Insira a porcentagem de eficiência da vacina: '),
+    readNumber(Eficiencia),
+    write('Insira o selo de aprovação da vacina: '),
+    readString(Selo),
+    write('Insira o país de origem da vacina: '),
+    readString(Pais),
+    constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
     salvaVacina(Vacina),
-    write('Vacina cadastrada'), nl,  
+    write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
-    %lerString(_),
+    readString(_),
     menuVacinas(-1).
 
 menuVacinas(2) :-
     tty_clear,
     write('Vacinas em falta:'), nl,
-    % LISTAR VACINAS EM FALTA AQUI.
+    % LISTAR VACINAS EM FALTA AQUI.,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuVacinas(3) :-
     tty_clear,
     write('Vacinas em estoque:'), nl,
-    % LISTAR VACINAS EM ESTOQUE AQUI.
+    % LISTAR VACINAS EM ESTOQUE AQUI.,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuVacinas(4) :-
     tty_clear,
     write('Todas as vacinas cadastradas:'), nl,
     % LISTAR TODAS AS VACINAS AQUI.
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuVacinas(5) :-
@@ -107,22 +117,24 @@ menuVacinas(5) :-
     write('1. Enfermidade (doença)'), nl,
     write('2. Laboratório'), nl,
     write('3. País de origem'), nl,
-    read(Numero),
+    readNumber(Numero),
     menuListaVacinas(Numero).
 
 menuVacinas(6) :-
     tty_clear,
     write('Nome da vacina:'), nl,
-    read(NomeVacina),
+    readString(NomeVacina),
     write('Quantidade de doses disponíveis para aplicação:'), nl,
     % EXIBIR QUANTIDADE DE DOSES DISPONÍVEIS AQUI.
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuVacinas(7) :-
     tty_clear,
     write('Atualizando vacina'), nl, nl,
     write('Insira o nome da vacina:'), nl,
-    read(Vacina),
+    readString(Vacina),
     menuAtualizaVacina(-1).
 
 menuAtualizaVacina(-1) :-
@@ -137,31 +149,42 @@ menuAtualizaVacina(-1) :-
     write('7. Atualizar a taxa de efuciência'),nl,
     write('8. Atualizar o selo de aprovação'),nl,
     write('9. Atualizar o país de origem'),nl,nl,
-    read(Numero),
+    readNumber(Numero),
     write('Insira o novo valor:'), nl,
-    read(NovoValor),
-    % ATUALIZAR VACINA AQUI
+    readString(NovoValor),
+    % ATUALIZAR VACINA AQUI,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuListaVacinas(1) :-
     tty_clear,
     write('Insira o nome da enfermidade (doença):'), nl,
-    read(Enfermidade),
+    readString(Enfermidade),
     % LISTAR VACINAS POR ENFERMIDADE AQUI.
+    tty_clear,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuListaVacinas(2) :-
     tty_clear,
     write('Insira o nome do laboratório:'), nl,
-    read(Laboratorio),
+    readString(Laboratorio),
     % LISTAR VACINAS POR LABORATÓRIO AQUI.
+    tty_clear,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 menuListaVacinas(3) :-
     tty_clear,
     write('Insira o país de origem:'), nl,
-    read(Pais),
+    readString(Pais),
     % LISTAR VACINAS POR PAÍS DE ORIGEM AQUI.
+    tty_clear,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(-1).
 
 salvaVacina(Vacina):-
@@ -177,7 +200,7 @@ menuPacientes(-1) :-
     write('3. Listar pacientes'), nl,
     write('4. Ver situação'), nl,
     write('0. Voltar ao menu principal'), nl,
-    read(Numero),
+    readNumber(Numero),
     menuPacientes(Numero).
 
 menuPacientes(0) :-
@@ -187,18 +210,21 @@ menuPacientes(1) :-
     tty_clear,
     write('Cadastrando um paciente'), nl,
     write('Insira o nome do paciente:'), nl,
-    read(Nome),
+    readString(Nome),
     write('Insira o sexo:'), nl,
-    read(Sexo),
+    readString(Sexo),
     write('Insira o CPF:'), nl,
-    read(CPF),
+    readString(CPF),
     write('Insira o endereço:'), nl,
-    read(Sexo),
+    readString(Endereco),
     write('Insira a idade:'), nl,
-    read(Idade),
+    readNumber(Idade),
     write('Insira o telefone:'), nl,
-    read(Telefone),
-    % CADASTRAR PACIENTE AQUI
+    readNumber(Telefone),
+    % CADASTRAR PACIENTE AQUI,
+    write('Paciente cadastrado!'), nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuPacientes(-1).
 
 menuPacientes(2) :-
@@ -209,9 +235,9 @@ menuPacientes(2) :-
     write('3. Alterar o telefone'), nl,
     write('4. Alterar o endereco'), nl,
     write('5. Alterar a idade'), nl,
-    read(Opcao),
+    readString(Opcao),
     write('Insira o novo valor:'), nl,
-    read(Valor),
+    readString(Valor),
     % ATUALIZAR PACIENTE AQUI
     menuPacientes(-1).
 
@@ -219,13 +245,17 @@ menuPacientes(3) :-
     tty_clear,
     write('Pacientes cadastrados:'), nl,
     % LISTAR PACIENTES AQUI
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuPacientes(-1).
 
 menuPacientes(4) :-
     tty_clear,
     write('Insira o CPF do paciente o qual deseja ver a situação:'),
-    read(CPF),
+    readString(CPF),
     % EXIBIR SITUAÇÃO DO PACIENTE AQUI.
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuPacientes(-1).
 
 menuVacinacoes(-1) :-
@@ -235,7 +265,7 @@ menuVacinacoes(-1) :-
     write('2. Listar pacientes a serem vacinados por uma determinada vacina'), nl,
     write('3. Calcular projeção de conclusão de uma vacinação'), nl,
     write('0. Voltar ao menu principal'), nl,
-    read(Numero),
+    readNumber(Numero),
     menuVacinacoes(Numero).
 
 menuVacinacoes(0) :-
@@ -244,35 +274,55 @@ menuVacinacoes(0) :-
 menuVacinacoes(1) :-
     tty_clear,
     write('Insira o nome da vacina:'), nl,
-    read(NomeVacina),
+    readString(NomeVacina),
     write('Insira o local:'), nl,
-    read(Local),
+    readString(Local),
     write('Insira a data da primeira dose:'), nl,
-    read(DataPrimeiraDose),
-    write('Insira a data da segunda dose (caso não precise, digite um .):'), nl,
-    read(DataSegundaDose),
+    readString(DataPrimeiraDose),
+    write('Insira a data da segunda dose (caso necessário):'), nl,
+    readString(DataSegundaDose),
     write('Insira o horário de início:'), nl,
-    read(Horario),
+    readString(Horario),
     write('Insira o horário de término:'), nl,
-    read(HorarioTermino),
+    readString(HorarioTermino),
     write('Informe a idade mínima:'),nl,
-    read(IdadeMinima),
-    % AGENDAR VACINAÇÃO AQUI.
+    readNumber(IdadeMinima),
+    % AGENDAR VACINAÇÃO AQUI.,
+    write('Vacinação agendada!'), nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinacoes(-1).
 
 menuVacinacoes(2) :-
     tty_clear,
     write('Nome da vacina:'), nl,
-    read(NomeVacina),
+    readString(NomeVacina),
     % LISTAR PACIENTES QUE VAO SER VACINADOS AQUI
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinacoes(-1).
 
 menuVacinacoes(3) :-
     tty_clear,
     % NÃO ENTENDI MUITO BEM O QUE FAZ AQUI
     % MAS TEM A VER COM PROJEÇAO DA VACINAÇÃO
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinacoes(-1).
+
+salvaVacina(Vacina):-
+    retract(listaVacinas(Lista)),
+    append(Lista,[Vacina],NovaLista),
+    assert(listaVacinas(NovaLista)).
+
+carregaVacinas():-
+    iniciaVacinas(ListaVacinas),
+    retract(listaVacinas(Lista)),
+    append(Lista,ListaVacinas,NovaLista),
+    assert(listaVacinas(NovaLista)).
 
 listaVacinas([]).
 :- dynamic listaVacinas/1.
 
+readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
+readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
