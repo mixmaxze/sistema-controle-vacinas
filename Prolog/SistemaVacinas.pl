@@ -5,6 +5,8 @@
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 :- initialization(main).
+:- style_check(-singleton).
+:- style_check(-discontiguous).
 
 main:-
     menuPrincipal(0),
@@ -59,6 +61,7 @@ menuVacinas(0) :-
 
 menuVacinas(1):-
     tty_clear,
+    listaVacinas(ListaVacinas),
     write('Cadastrando uma vacina'),nl,
     write('Insina o nome da vacina: '),
     readString(Nome),
@@ -81,7 +84,7 @@ menuVacinas(1):-
     write('Insira o país de origem da vacina: '),
     readString(Pais),
     constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
-    salvaVacina(Vacina),
+    salvaListaVacinas([Vacina]),
     write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
     readString(_),
@@ -310,19 +313,11 @@ menuVacinacoes(3) :-
     readString(_),
     menuVacinacoes(-1).
 
-salvaVacina(Vacina):-
-    retract(listaVacinas(Lista)),
-    append(Lista,[Vacina],NovaLista),
-    assert(listaVacinas(NovaLista)).
-
 carregaVacinas():-
     iniciaVacinas(ListaVacinas),
     retract(listaVacinas(Lista)),
     append(Lista,ListaVacinas,NovaLista),
-    assert(listaVacinas(NovaLista)).
-
-listaVacinas([]).
-:- dynamic listaVacinas/1.
+    assertz(listaVacinas(NovaLista)).
 
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
