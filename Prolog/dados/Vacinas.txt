@@ -1,1 +1,2 @@
-b,b,b,b,3,4,b,5,u,y
+teste,20/01/21,20/01/22,Lab,1000,1,Covid,70,Anvisa,Brasil
+Astrazenica,20/01/21,20/05/22,Laboratorio,2000,2,Covid,85,Anvisa,Brasil

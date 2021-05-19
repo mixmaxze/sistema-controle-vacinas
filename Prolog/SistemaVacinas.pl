@@ -8,7 +8,11 @@
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 
-main:-
+
+
+
+main :-
+    carregaVacinas(),
     menuPrincipal(0),
     halt.
 
@@ -32,18 +36,18 @@ menuPrincipal(0):-
 
 menuPrincipal(1):-
     tty_clear,
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuPrincipal(2):-
     tty_clear,
-    menuPacientes(-1).
+    menuPacientes(99).
 
 menuPrincipal(3) :-
     tty_clear,
-    menuVacinacoes(-1), nl.
+    menuVacinacoes(-99), nl.
 
-menuVacinas(-1):-
-    tty_clear,
+menuVacinas(99):-
+    tty_clear,  
     write('Menu das Vacinas'), nl,
     write('1. Cadastrar Vacina'), nl,
     write('2. Listar vacinas em falta'), nl,
@@ -52,6 +56,7 @@ menuVacinas(-1):-
     write('5. Listar vacinas por atributo'), nl,
     write('6. Doses disponiveis para aplicação'), nl,
     write('7. Atualizar Vacina'),nl,
+    write('8. Salvar Dados'),nl,
     write('0. Voltar para o menu principal'), nl,
     readNumber(Numero),
     menuVacinas(Numero).
@@ -61,7 +66,6 @@ menuVacinas(0) :-
 
 menuVacinas(1):-
     tty_clear,
-    listaVacinas(ListaVacinas),
     write('Cadastrando uma vacina'),nl,
     write('Insina o nome da vacina: '),
     readString(Nome),
@@ -84,11 +88,11 @@ menuVacinas(1):-
     write('Insira o país de origem da vacina: '),
     readString(Pais),
     constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
-    salvaListaVacinas([Vacina]),
+    salvaVacinas(Vacina),
     write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuVacinas(2) :-
     tty_clear,
@@ -96,7 +100,8 @@ menuVacinas(2) :-
     % LISTAR VACINAS EM FALTA AQUI.,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
+
 
 menuVacinas(3) :-
     tty_clear,
@@ -104,15 +109,15 @@ menuVacinas(3) :-
     % LISTAR VACINAS EM ESTOQUE AQUI.,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuVacinas(4) :-
-    tty_clear,
     write('Todas as vacinas cadastradas:'), nl,
-    % LISTAR TODAS AS VACINAS AQUI.
+    listaVacinas(ListaVacinas),
+    listarVacinas(ListaVacinas),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuVacinas(5) :-
     tty_clear,
@@ -131,7 +136,7 @@ menuVacinas(6) :-
     % EXIBIR QUANTIDADE DE DOSES DISPONÍVEIS AQUI.
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuVacinas(7) :-
     tty_clear,
@@ -139,6 +144,11 @@ menuVacinas(7) :-
     write('Insira o nome da vacina:'), nl,
     readString(Vacina),
     menuAtualizaVacina(-1).
+
+menuVacinas(8) :-
+    salvarDados(),
+    write('Dados salvos.'),nl,
+    menuVacinas(99).
 
 menuAtualizaVacina(-1) :-
     tty_clear,
@@ -190,12 +200,7 @@ menuListaVacinas(3) :-
     readString(_),
     menuVacinas(-1).
 
-salvaVacina(Vacina):-
-    retract(listaVacinas(Lista)),
-    append(Lista,[Vacina],NovaLista),
-    assert(listaVacinas(NovaLista)).
-
-menuPacientes(-1) :-
+menuPacientes(99) :-
     tty_clear,
     write('Menu dos Pacientes'), nl,nl,
     write('1. Cadastrar paciente'), nl,
@@ -261,7 +266,7 @@ menuPacientes(4) :-
     readString(_),
     menuPacientes(-1).
 
-menuVacinacoes(-1) :-
+menuVacinacoes(99) :-
     tty_clear,
     write('Menu de vacinações'), nl, nl,
     write('1. Agendar vacinação'), nl,
@@ -313,11 +318,24 @@ menuVacinacoes(3) :-
     readString(_),
     menuVacinacoes(-1).
 
+salvaVacinas(Vacina):-
+    retract(listaVacinas(Lista)),
+    append(Lista,[Vacina],NovaLista),
+    assert(listaVacinas(NovaLista)).
+  
+ listaVacinas([]).
+:- dynamic listaVacinas/1.
+
 carregaVacinas():-
     iniciaVacinas(ListaVacinas),
     retract(listaVacinas(Lista)),
     append(Lista,ListaVacinas,NovaLista),
-    assertz(listaVacinas(NovaLista)).
+    assert(listaVacinas(NovaLista)).
 
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
+
+salvarDados():-
+    listaVacinas(ListaVacinas),
+    salvaListaVacinas(ListaVacinas).
+
