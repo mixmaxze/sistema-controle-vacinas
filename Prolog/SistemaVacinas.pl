@@ -210,6 +210,7 @@ menuPacientes(99) :-
     write('2. Atualizar paciente'), nl,
     write('3. Listar pacientes'), nl,
     write('4. Ver situação'), nl,
+    write('5. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuPacientes(Numero).
@@ -233,10 +234,12 @@ menuPacientes(1) :-
     write('Insira o telefone:'), nl,
     readNumber(Telefone),
     % CADASTRAR PACIENTE AQUI,
+    constroiPaciente(Nome,Sexo,CPF,Endereco,Idade,Telefone,Paciente),
+    salvaPacientes(Paciente),
     write('Paciente cadastrado!'), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuPacientes(-1).
+    menuPacientes(99).
 
 menuPacientes(2) :-
     tty_clear,
@@ -268,6 +271,11 @@ menuPacientes(4) :-
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuPacientes(-1).
+
+menuPacientes(5) :-
+    salvarDados(),
+    write('Dados salvos.'),nl,
+    menuPacientes(99).
 
 menuVacinacoes(99) :-
     tty_clear,
@@ -321,6 +329,9 @@ menuVacinacoes(3) :-
     readString(_),
     menuVacinacoes(-1).
 
+% \\\\\\\\\\\\\\\\\\\\ SALVAR DADOS /////////////////////
+
+% \\\\\\\\\\\\\\\\\\\\ SALVAR VACINA /////////////////////
 salvaVacinas(Vacina):-
     retract(listaVacinas(Lista)),
     append(Lista,[Vacina],NovaLista),
@@ -335,10 +346,27 @@ carregaVacinas():-
     append(Lista,ListaVacinas,NovaLista),
     assert(listaVacinas(NovaLista)).
 
-readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
-readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
+% \\\\\\\\\\\\\\\\\\\\ SALVAR PACIENTE /////////////////////
+salvaPacientes(Paciente):-
+    retract(listaPacientes(Lista)),
+    append(Lista,[Paciente],NovaLista),
+    assert(listaPacientes(NovaLista)).
+
+listaPacientes([]).
+:- dynamic listaPacientes/1.
+
+carregaPacientes():-
+    iniciaPacientes(ListaPacientes),
+    retract(listaPacientes(Lista)),
+    append(Lista,ListaPacientes,NovaLista),
+    assert(listaPacientes(NovaLista)).
 
 salvarDados():-
     listaVacinas(ListaVacinas),
+    listaPacientes(ListaPacientes),
+    salvaListaPacientes(ListaPacientes),
     salvaListaVacinas(ListaVacinas).
+
+readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
+readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
 

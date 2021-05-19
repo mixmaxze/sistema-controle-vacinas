@@ -1,8 +1,7 @@
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 
-constroiPaciente(Nome, Sexo, CPF, Endereco, Idade, Telefone).
-salvaPaciente(Paciente, Lista, Retorno) :- append(Lista, [Paciente], Retorno).
+constroiPaciente(Nome, Sexo, CPF, Endereco, Idade, Telefone, paciente(Nome, Sexo, CPF, Endereco, Idade, Telefone)).
 
 /* retorna os dados do Paciente */
 getPacienteNome((Nome, _, _, _, _, _), Nome).
@@ -18,8 +17,8 @@ buscaPaciente(NomePaciente,[H|T], Resultado):- getPacienteNome(H,Nome), string_u
             (NomeUpper = NomePacienteUpper -> Resultado = H; buscaPaciente(NomePaciente,T,Resultado)).
 
 % lista os pacientes
-listaPacientes([]):- nl.
-listaPacientes([H|T]):- pacienteToString(H,PacienteToString), write(PacienteToString), nl, listaPacientes(T).
+listarPacientes([]):- nl.
+listarPacientes([H|T]):- pacienteToString(H,PacienteToString), write(PacienteToString), nl, listarPacientes(T).
 
 % representação em texto do paciente
 pacienteToString(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone), Resultado) :- 

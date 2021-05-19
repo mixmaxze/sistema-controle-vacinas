@@ -2,6 +2,7 @@
 :- include('Paciente.pl').
 :- include('Vacinacao.pl').
 
+%\\\\\\\\\\\\\\\\VACINAS/////////////////////////
 salvaListaVacinas(ListaVacinas):-
     open('dados/Vacinas.txt', write, ArquivoVacinas),
     escreveTodasAsVacinas(ListaVacinas,String),
@@ -56,6 +57,53 @@ resgataVacina([H|T], Lista):-
     constroiVacina(Nome,Fabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
     resgataVacina(T, ListaNova),
     append([Vacina], ListaNova, Lista).
+
+%\\\\\\\\\\\\\\\\\\\\\\\PACIENTES////////////////////
+
+salvaListaPacientes(ListaPacientes):- 
+    open('dados/Pacientes.txt', write, ArquivoPacientes),
+    escreveTodasOsPacientes(ListaPacientes,String),
+    write(ArquivoPacientes,String),
+    close(ArquivoPacientes).
+
+escreveTodasOsPacientes([],String):- String = ''.
+escreveTodasOsPacientes([H|T],String):-
+    escrevePaciente(H,PacienteString),
+    escreveTodasOsPacientes(T,StringProx),
+    string_concat(PacienteString,StringProx,String).
+
+escrevePaciente(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone),String):-
+    string_concat(Nome, ',', Parte1), 
+    string_concat(Parte1, Sexo, Parte2),
+    string_concat(Parte2, ',', Parte3),
+    string_concat(Parte3, CPF, Parte4), 
+    string_concat(Parte4, ',', Parte5), 
+    string_concat(Parte5, Endereco, Parte6), 
+    string_concat(Parte6, ',', Parte7), 
+    string_concat(Parte7, Idade, Parte8), 
+    string_concat(Parte8, ',', Parte9), 
+    string_concat(Parte9, Telefone, Parte10), 
+    string_concat(Parte10, '\n', String).
+
+iniciaPacientes(ListaPacientes):-
+    open('dados/Pacientes.txt',read,Stream),
+    read_file(Stream,ListaPacientesStr),
+    resgataPaciente(ListaPacientesStr,ListaPacientes),
+    close(Stream).
+
+resgataPaciente([],_).
+resgataPaciente([H|T],Lista):-
+    nth0(0, H, Nome),
+    nth0(1, H, Sexo),
+    nth0(2, H, CPF),
+    nth0(3, H, Endereco),
+    nth0(4, H, Idade),
+    nth0(5, H, Telefone),
+
+    constroiPaciente(Nome,Sexo, CPF, Endereco, Idade, Telefone, Paciente),
+    resgataPaciente(T, ListaNova),
+    append([Paciente],ListaNova,Lista).
+
 
 read_file(Stream,[]) :-
     at_end_of_stream(Stream).
