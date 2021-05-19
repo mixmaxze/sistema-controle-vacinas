@@ -44,5 +44,10 @@ vacinaToString(vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,Qu
     string_concat(Concat15, ' - Selo de aprovação: ', Concat16), 
     string_concat(Concat16, Selo, Concat17),
     string_concat(Concat17, ' - País: ', Concat18), 
-    string_concat(Concat18, Pais, Concat19),
-    string_concat(Concat19, Hospital, Resultado).
+    string_concat(Concat18, Pais, Resultado).
+
+% listar vacinas em falta
+listarVacinasEmFalta([],Aux) :- nl.
+listarVacinasEmFalta([H|T],Aux) :- getVacinaQuantidade(H,Quantidade),(Quantidade = Aux -> vacinaToString(H,VacinaToString), write(VacinaToString), nl,listarVacinasEmFalta(T,Aux));
+    listarVacinasEmFalta(T,Aux).
+
