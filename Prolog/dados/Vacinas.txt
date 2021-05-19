@@ -1,2 +1,3 @@
-teste,20/01/21,20/01/22,Lab,1000,1,Covid,70,Anvisa,Brasil
-Astrazenica,20/01/21,20/05/22,Laboratorio,2000,2,Covid,85,Anvisa,Brasil
+teste,teste,teste,teste,2000,1,teste,90,teste,teste
+teste,tes,teste,teste,100,1,teste,90,anvisa,brasil
+falta,20/01/21,20/02/22,lab,0,1,covid,80,anvisa,Brasil
