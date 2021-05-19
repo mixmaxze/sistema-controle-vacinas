@@ -22,7 +22,7 @@ buscaVacina(NomeVacina,[H|T], Resultado):- getVacinaNome(H,Nome), string_upper(N
 
 % lista as vacinas
 listarVacinas([]):- nl.
-listarVacinas([H|T]):- vacinaToString(H,VacinaToString), write(VacinaToString), nl, listaVacinas(T).
+listarVacinas([H|T]):- vacinaToString(H,VacinaToString), write(VacinaToString), nl, listarVacinas(T).
 
 % representação em texto da vacina
 vacinaToString(vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais), Resultado) :- 
