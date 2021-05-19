@@ -256,9 +256,11 @@ menuPacientes(3) :-
     tty_clear,
     write('Pacientes cadastrados:'), nl,
     % LISTAR PACIENTES AQUI
+    listaPacientes(ListaPacientes),
+    listarPacientes(ListaPacientes),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuPacientes(-1).
+    menuPacientes(99).
 
 menuPacientes(4) :-
     tty_clear,

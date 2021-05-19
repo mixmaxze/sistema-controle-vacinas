@@ -32,6 +32,6 @@ pacienteToString(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone), Resultado)
     string_concat(Concat7, ' - Idade: ', Concat8),
     string_concat(Concat8, Idade, Concat9),
     string_concat(Concat9, ' - Telefone: ', Concat10),
-    string_concat(Concat10, Telefone, Concat11),
-    string_concat(Concat11, Hospital, Resultado).
+    string_concat(Concat10, Telefone, Resultado).
+
 
