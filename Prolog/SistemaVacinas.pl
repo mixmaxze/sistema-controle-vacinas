@@ -97,7 +97,8 @@ menuVacinas(1):-
 menuVacinas(2) :-
     tty_clear,
     write('Vacinas em falta:'), nl,
-    % LISTAR VACINAS EM FALTA AQUI.,
+    listaVacinas(ListaVacinas),
+    listarVacinasEmFalta(ListaVacinas,0),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -106,12 +107,14 @@ menuVacinas(2) :-
 menuVacinas(3) :-
     tty_clear,
     write('Vacinas em estoque:'), nl,
-    % LISTAR VACINAS EM ESTOQUE AQUI.,
+    listaVacinas(ListaVacinas),
+    listarVacinasEmEstoque(ListaVacinas,)
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
 
 menuVacinas(4) :-
+    tty_clear,
     write('Todas as vacinas cadastradas:'), nl,
     listaVacinas(ListaVacinas),
     listarVacinas(ListaVacinas),nl,
