@@ -108,7 +108,7 @@ menuVacinas(3) :-
     tty_clear,
     write('Vacinas em estoque:'), nl,
     listaVacinas(ListaVacinas),
-    listarVacinasEmEstoque(ListaVacinas,)
+    %listarVacinasEmEstoque(ListaVacinas),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
