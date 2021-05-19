@@ -22,8 +22,8 @@ buscaVacina(NomeVacina,[H|T], Resultado):- getVacinaNome(H,Nome), string_upper(N
             (NomeUpper = NomeVacinaUpper -> Resultado = H; buscaVacina(NomeVacina,T,Resultado)).
 
 % lista as vacinas
-listaVacinas([]):- nl.
-listaVacinas([H|T]):- vacinaToString(H,VacinaToString), write(VacinaToString), nl, listaVacinas(T).
+listarVacinas([]):- nl.
+listarVacinas([H|T]):- vacinaToString(H,VacinaToString), write(VacinaToString), nl, listaVacinas(T).
 
 % representação em texto da vacina
 vacinaToString(vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais), Resultado) :- 

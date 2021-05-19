@@ -1,9 +1,8 @@
 :- include('Vacina.pl').
 :- include('Paciente.pl').
 :- include('Vacinacao.pl').
-:- dynamic constroiVacina/10, read_file/2.
 
-salvaVacina(ListaVacinas):-
+salvaListaVacina(ListaVacinas):-
     open('dados/Vacinas.txt',write, ArquivoVacinas),
     escreveTodasAsVacinas(ListaVacinas,String),
     write(ArquivoVacinas,String),
@@ -54,7 +53,15 @@ resgataVacina([H|T], Lista):-
     nth0(7, H, Eficiencia),
     nth0(8, H, Selo),
     nth0(9, H, Pais),
-    
-    constroiVacina(Nome,Fabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais),
+    constroiVacina(Nome,Fabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
     resgataVacina(T, ListaNova),
     append([Vacina], ListaNova, Lista). 
+
+read_file(Stream,[]) :-
+    at_end_of_stream(Stream).
+
+read_file(Stream,[X|L]) :-
+    \+ at_end_of_stream(Stream),
+    read_line_to_string(Stream, String),
+    atomic_list_concat(X,",", String),
+    read_file(Stream,L),!.
