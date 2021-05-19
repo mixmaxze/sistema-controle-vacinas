@@ -5,6 +5,8 @@
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 :- initialization(main).
+:- style_check(-singleton).
+:- style_check(-discontiguous).
 
 
 
@@ -43,7 +45,6 @@ menuPrincipal(2):-
 menuPrincipal(3) :-
     tty_clear,
     menuVacinacoes(-99), nl.
-menuPrincipal(4) :- salvarDados().
 
 menuVacinas(99):-
     tty_clear,  
@@ -55,6 +56,7 @@ menuVacinas(99):-
     write('5. Listar vacinas por atributo'), nl,
     write('6. Doses disponiveis para aplicação'), nl,
     write('7. Atualizar Vacina'),nl,
+    write('8. Salvar Dados'),nl,
     write('0. Voltar para o menu principal'), nl,
     readNumber(Numero),
     menuVacinas(Numero).
@@ -86,8 +88,7 @@ menuVacinas(1):-
     write('Insira o país de origem da vacina: '),
     readString(Pais),
     constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
-    salvaVacina(Vacina),
-    salvarDados(),
+    salvaVacinas(Vacina),
     write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
     readString(_),
@@ -111,7 +112,6 @@ menuVacinas(3) :-
     menuVacinas(99).
 
 menuVacinas(4) :-
-    tty_clear,
     write('Todas as vacinas cadastradas:'), nl,
     listaVacinas(ListaVacinas),
     listarVacinas(ListaVacinas),nl,
@@ -144,6 +144,11 @@ menuVacinas(7) :-
     write('Insira o nome da vacina:'), nl,
     readString(Vacina),
     menuAtualizaVacina(-1).
+
+menuVacinas(8) :-
+    salvarDados(),
+    write('Dados salvos.'),nl,
+    menuVacinas(99).
 
 menuAtualizaVacina(-1) :-
     tty_clear,
@@ -313,14 +318,13 @@ menuVacinacoes(3) :-
     readString(_),
     menuVacinacoes(-1).
 
-salvaVacina(Vacina):-
+salvaVacinas(Vacina):-
     retract(listaVacinas(Lista)),
     append(Lista,[Vacina],NovaLista),
     assert(listaVacinas(NovaLista)).
-
-
-listaVacinas([]).
-:-dynamic listaVacinas/1.
+  
+ listaVacinas([]).
+:- dynamic listaVacinas/1.
 
 carregaVacinas():-
     iniciaVacinas(ListaVacinas),
@@ -328,10 +332,10 @@ carregaVacinas():-
     append(Lista,ListaVacinas,NovaLista),
     assert(listaVacinas(NovaLista)).
 
-salvarDados() :-
-    listaVacinas(ListaVacinas),
-    salvaListaVacina(ListaVacinas).
-
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
+
+salvarDados():-
+    listaVacinas(ListaVacinas),
+    salvaListaVacinas(ListaVacinas).
 

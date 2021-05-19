@@ -1,20 +1,19 @@
 :- style_check(-singleton).
 :- style_check(-discontiguous).
 
-constroiVacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo)).
-salvaVacina(Vacina,Lista,Retorno):- append(Lista,[Vacina],Retorno).
+constroiVacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais)).
 
 % retorna atributos da vacina
-getVacinaNome((Nome,_,_,_,_,_,_,_,_,_),Nome).
-getVacinaDataFabricacao((_,DataFabricacao,_,_,_,_,_,_,_,_),DataFabricacao).
-getVacinaDataValidade((_,_,DataValidade,_,_,_,_,_,_,_),DataValidade).
-getVacinaLaboratorio((_,_,_,Laboratorio,_,_,_,_,_,_),Laboratorio).
-getVacinaQuantidade((_,_,_,_,Quantidade,_,_,_,_,_),Quantidade).
-getVacinaQuantidadeDoses((_,_,_,_,_,QuantidadeDoses,_,_,_,_),QuantidadeDoses).
-getVacinaDoenca((_,_,_,_,_,_,Doenca,_,_,_),Doenca).
-getVacinaEficiencia((_,_,_,_,_,_,_,Eficiencia,_,_),Eficiencia).
-getVacinaSelo((_,_,_,_,_,_,_,_,Selo,_),Selo).
-getVacinaPais((_,_,_,_,_,_,_,_,_,Pais),Pais).
+getVacinaNome(vacina(Nome,_,_,_,_,_,_,_,_,_),Nome).
+getVacinaDataFabricacao(vacina(_,DataFabricacao,_,_,_,_,_,_,_,_),DataFabricacao).
+getVacinaDataValidade(vacina(_,_,DataValidade,_,_,_,_,_,_,_),DataValidade).
+getVacinaLaboratorio(vacina(_,_,_,Laboratorio,_,_,_,_,_,_),Laboratorio).
+getVacinaQuantidade(vacina(_,_,_,_,Quantidade,_,_,_,_,_),Quantidade).
+getVacinaQuantidadeDoses(vacina(_,_,_,_,_,QuantidadeDoses,_,_,_,_),QuantidadeDoses).
+getVacinaDoenca(vacina(_,_,_,_,_,_,Doenca,_,_,_),Doenca).
+getVacinaEficiencia(vacina(_,_,_,_,_,_,_,Eficiencia,_,_),Eficiencia).
+getVacinaSelo(vacina(_,_,_,_,_,_,_,_,Selo,_),Selo).
+getVacinaPais(vacina(_,_,_,_,_,_,_,_,_,Pais),Pais).
 
 % busca vacina
 buscaVacina(_,[],Resultado):- Resultado = 'Vacina não encontrada.'.
