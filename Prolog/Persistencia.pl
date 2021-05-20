@@ -99,7 +99,6 @@ resgataPaciente([H|T],Lista):-
     nth0(3, H, Endereco),
     nth0(4, H, Idade),
     nth0(5, H, Telefone),
-
     constroiPaciente(Nome,Sexo, CPF, Endereco, Idade, Telefone, Paciente),
     resgataPaciente(T, ListaNova),
     append([Paciente],ListaNova,Lista).
