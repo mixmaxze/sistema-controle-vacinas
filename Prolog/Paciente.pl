@@ -1,5 +1,4 @@
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 
 constroiPaciente(Nome, Sexo, CPF, Endereco, Idade, Telefone, paciente(Nome, Sexo, CPF, Endereco, Idade, Telefone)).
 

@@ -3,15 +3,13 @@
 :- include('Vacinacao.pl').
 :- include('Persistencia.pl').
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 :- initialization(main).
-:- style_check(-singleton).
-:- style_check(-discontiguous).
 
 
 
 
 main :-
+    carregaPacientes(),
     carregaVacinas(),
     menuPrincipal(0),
     halt.
@@ -98,7 +96,7 @@ menuVacinas(2) :-
     tty_clear,
     write('Vacinas em falta:'), nl,
     listaVacinas(ListaVacinas),
-    listarVacinasEmFalta(ListaVacinas,0),nl,
+    listarVacinasEmFalta(ListaVacinas,'0'),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -108,7 +106,8 @@ menuVacinas(3) :-
     tty_clear,
     write('Vacinas em estoque:'), nl,
     listaVacinas(ListaVacinas),
-    %listarVacinasEmEstoque(ListaVacinas),
+
+    listarVacinasEmEstoque(ListaVacinas,'0'), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -136,7 +135,8 @@ menuVacinas(6) :-
     write('Nome da vacina:'), nl,
     readString(NomeVacina),
     write('Quantidade de doses disponíveis para aplicação:'), nl,
-    % EXIBIR QUANTIDADE DE DOSES DISPONÍVEIS AQUI.
+    listaVacinas(ListaVacinas),
+    buscaVacina(NomeVacina,ListaVacinas),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -151,6 +151,8 @@ menuVacinas(7) :-
 menuVacinas(8) :-
     salvarDados(),
     write('Dados salvos.'),nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(99).
 
 menuAtualizaVacina(-1) :-
@@ -177,31 +179,31 @@ menuListaVacinas(1) :-
     tty_clear,
     write('Insira o nome da enfermidade (doença):'), nl,
     readString(Enfermidade),
-    % LISTAR VACINAS POR ENFERMIDADE AQUI.
-    tty_clear,
+    listaVacinas(ListaVacinas),
+    buscaVacinaPorDoenca(Enfermidade,ListaVacinas),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuListaVacinas(2) :-
     tty_clear,
     write('Insira o nome do laboratório:'), nl,
     readString(Laboratorio),
-    % LISTAR VACINAS POR LABORATÓRIO AQUI.
-    tty_clear,
+    listaVacinas(ListaVacinas),
+    buscaVacinaPorLaboratorio(Laboratorio,ListaVacinas),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuListaVacinas(3) :-
     tty_clear,
     write('Insira o país de origem:'), nl,
     readString(Pais),
-    % LISTAR VACINAS POR PAÍS DE ORIGEM AQUI.
-    tty_clear,
+    listaVacinas(ListaVacinas),
+    buscaVacinaPorPais(Pais,ListaVacinas),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuPacientes(99) :-
     tty_clear,

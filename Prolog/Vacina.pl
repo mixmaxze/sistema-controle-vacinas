@@ -16,9 +16,9 @@ getVacinaSelo(vacina(_,_,_,_,_,_,_,_,Selo,_),Selo).
 getVacinaPais(vacina(_,_,_,_,_,_,_,_,_,Pais),Pais).
 
 % busca vacina
-buscaVacina(_,[],Resultado):- Resultado = 'Vacina não encontrada.'.
-buscaVacina(NomeVacina,[H|T], Resultado):- getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),
-            (NomeUpper = NomeVacinaUpper -> Resultado = H; buscaVacina(NomeVacina,T,Resultado)).
+buscaVacina(_,[]):- nl.
+buscaVacina(NomeVacina,[H|T]):- getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),getVacinaQuantidadeDoses(H,NDeDoses),
+            (NomeUpper = NomeVacinaUpper,NDeDoses = '1'->  getVacinaQuantidade(H,Quantidade), write(Quantidade),nl,buscaVacina(NomeVacina,T); buscaVacina(NomeVacina,T)).
 
 % lista as vacinas
 listarVacinas([]):- nl.
@@ -48,6 +48,28 @@ vacinaToString(vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,Qu
 
 % listar vacinas em falta
 listarVacinasEmFalta([],Aux) :- nl.
-listarVacinasEmFalta([H|T],Aux) :- getVacinaQuantidade(H,Quantidade),(Quantidade = Aux -> vacinaToString(H,VacinaToString), write(VacinaToString), nl,listarVacinasEmFalta(T,Aux));
-    listarVacinasEmFalta(T,Aux).
+listarVacinasEmFalta([H|T],Aux) :- getVacinaQuantidade(H,Quantidade),
+    (Quantidade = Aux -> vacinaToString(H,VacinaToString), write(VacinaToString), nl,listarVacinasEmFalta(T,Aux);
+    listarVacinasEmFalta(T,Aux)).
+
+% listar vacinas em estoque
+listarVacinasEmEstoque([],Aux) :- nl.
+listarVacinasEmEstoque([H|T],Aux) :- getVacinaQuantidade(H,Quantidade),
+    (Quantidade = Aux -> listarVacinasEmEstoque(T,Aux);
+    vacinaToString(H,VacinaToString), write(VacinaToString), nl,listarVacinasEmEstoque(T,Aux)).
+
+% buscar por doenca
+buscaVacinaPorDoenca(_,[]):- nl.
+buscaVacinaPorDoenca(NomeDoenca,[H|T]):- getVacinaDoenca(H,Doenca), string_upper(Doenca, DoencaUpper), string_upper(NomeDoenca, NomeDoencaUpper),
+            (DoencaUpper = NomeDoencaUpper -> vacinaToString(H,VacinaToString), write(VacinaToString),nl,buscaVacinaPorDoenca(NomeDoenca,T); buscaVacinaPorDoenca(NomeDoenca,T)).
+
+% buscar por laboratorio
+buscaVacinaPorLaboratorio(_,[]):- nl.
+buscaVacinaPorLaboratorio(NomeLaboratorio,[H|T]):- getVacinaLaboratorio(H,Laboratorio), string_upper(Laboratorio, LaboratorioUpper), string_upper(NomeLaboratorio, NomeLaboratorioUpper),
+            (LaboratorioUpper = NomeLaboratorioUpper -> vacinaToString(H,VacinaToString), write(VacinaToString),nl,buscaVacinaPorLaboratorio(NomeLaboratorio,T); buscaVacinaPorLaboratorio(NomeLaboratorio,T)).
+        
+% buscar por pais 
+buscaVacinaPorPais(_,[]):- nl.
+buscaVacinaPorPais(NomePais,[H|T]):- getVacinaPais(H,Pais), string_upper(Pais, PaisUpper), string_upper(NomePais, NomePaisUpper),
+            (PaisUpper = NomePaisUpper -> vacinaToString(H,VacinaToString), write(VacinaToString),nl,buscaVacinaPorPais(NomePais,T); buscaVacinaPorPais(NomePais,T)).
 
