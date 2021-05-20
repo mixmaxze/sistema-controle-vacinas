@@ -3,9 +3,7 @@
 :- include('Vacinacao.pl').
 :- include('Persistencia.pl').
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 :- initialization(main).
-:- style_check(-singleton).
 
 
 
@@ -44,7 +42,7 @@ menuPrincipal(2):-
 
 menuPrincipal(3) :-
     tty_clear,
-    menuVacinacoes(-99), nl.
+    menuVacinacoes(99), nl.
 
 menuVacinas(99):-
     tty_clear,  
@@ -108,6 +106,7 @@ menuVacinas(3) :-
     tty_clear,
     write('Vacinas em estoque:'), nl,
     listaVacinas(ListaVacinas),
+
     listarVacinasEmEstoque(ListaVacinas,'0'), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
@@ -261,7 +260,7 @@ menuPacientes(3) :-
     tty_clear,
     write('Pacientes cadastrados:'), nl,
     listaPacientes(ListaPacientes),
-    listarPacientes(ListaPacientes),
+    listarPacientes(ListaPacientes),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuPacientes(99).
@@ -286,6 +285,7 @@ menuVacinacoes(99) :-
     write('1. Agendar vacinação'), nl,
     write('2. Listar pacientes a serem vacinados por uma determinada vacina'), nl,
     write('3. Calcular projeção de conclusão de uma vacinação'), nl,
+    write('4. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuVacinacoes(Numero).
@@ -304,16 +304,18 @@ menuVacinacoes(1) :-
     write('Insira a data da segunda dose (caso necessário):'), nl,
     readString(DataSegundaDose),
     write('Insira o horário de início:'), nl,
-    readString(Horario),
+    readString(HorarioInicio),
     write('Insira o horário de término:'), nl,
-    readString(HorarioTermino),
+    readString(HorarioFim),
     write('Informe a idade mínima:'),nl,
     readNumber(IdadeMinima),
-    % AGENDAR VACINAÇÃO AQUI.,
+    % AGENDAR VACINAÇÃO AQUI.
+    constroiVacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima, Vacinacao),
+    salvaVacinacao(Vacinacao),
     write('Vacinação agendada!'), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinacoes(-1).
+    menuVacinacoes(99).
 
 menuVacinacoes(2) :-
     tty_clear,
@@ -322,7 +324,7 @@ menuVacinacoes(2) :-
     % LISTAR PACIENTES QUE VAO SER VACINADOS AQUI
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinacoes(-1).
+    menuVacinacoes(99).
 
 menuVacinacoes(3) :-
     tty_clear,
@@ -330,8 +332,12 @@ menuVacinacoes(3) :-
     % MAS TEM A VER COM PROJEÇAO DA VACINAÇÃO
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinacoes(-1).
+    menuVacinacoes(99).
 
+menuVacinacoes(4) :-
+    salvarDados(),
+    write('Dados salvos.'),nl,
+    menuVacinacoes(99).
 % \\\\\\\\\\\\\\\\\\\\ SALVAR DADOS /////////////////////
 
 % \\\\\\\\\\\\\\\\\\\\ SALVAR VACINA /////////////////////
@@ -364,11 +370,31 @@ carregaPacientes():-
     append(Lista,ListaPacientes,NovaLista),
     assert(listaPacientes(NovaLista)).
 
+
+
+%\\\\\\\\\\\\\\\\\\\SALVAR VACINAÇÃO//////////////////
+salvaVacinacao(Vacinacao):-
+    retract(listaVacinacao(Lista)),
+    append(Lista,[Vacinacao],NovaLista),
+    assert(listaVacinacao(NovaLista)).
+
+listaVacinacao([]).
+:- dynamic listaVacinacao/1.
+
+carregaVacinacao():-
+    iniciaVacinacao(listaVacinacao),
+    retract(listaVacinacao(Lista)),
+    append(Lista,ListaVacinacao,NovaLista),
+    assert(listaVacinacao(NovaLista)).
+
+
 salvarDados():-
     listaVacinas(ListaVacinas),
     listaPacientes(ListaPacientes),
+    listaVacinacao(ListaVacinacao),
     salvaListaPacientes(ListaPacientes),
-    salvaListaVacinas(ListaVacinas).
+    salvaListaVacinas(ListaVacinas),
+    salvaListaVacinacao(ListaVacinacao).
 
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).

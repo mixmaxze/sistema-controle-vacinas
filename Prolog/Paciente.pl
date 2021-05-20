@@ -1,15 +1,14 @@
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 
 constroiPaciente(Nome, Sexo, CPF, Endereco, Idade, Telefone, paciente(Nome, Sexo, CPF, Endereco, Idade, Telefone)).
 
 /* retorna os dados do Paciente */
 getPacienteNome((Nome, _, _, _, _, _), Nome).
-getPacienteNome((_, Sexo, _, _, _, _), Sexo).
-getPacienteNome((_, _, CPF, _, _, _), CPF).
-getPacienteNome((_, _, _, Endereco, _, _), Endereco).
-getPacienteNome((_, _, _, _, Idade, _), Idade).
-getPacienteNome((_, _, _, _, _, Telefone), Telefone).
+getPacienteSexo((_, Sexo, _, _, _, _), Sexo).
+getPacienteCPF((_, _, CPF, _, _, _), CPF).
+getPacienteEndereco((_, _, _, Endereco, _, _), Endereco).
+getPacienteIdade((_, _, _, _, Idade, _), Idade).
+getPacienteTelefone((_, _, _, _, _, Telefone), Telefone).
 
 % busca paciente
 buscaPaciente(_,[],Resultado):- Resultado = 'Paciente não encontrado.'.
@@ -33,4 +32,5 @@ pacienteToString(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone), Resultado)
     string_concat(Concat8, Idade, Concat9),
     string_concat(Concat9, ' - Telefone: ', Concat10),
     string_concat(Concat10, Telefone, Resultado).
+
 
