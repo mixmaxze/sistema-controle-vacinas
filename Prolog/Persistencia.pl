@@ -103,6 +103,52 @@ resgataPaciente([H|T],Lista):-
     resgataPaciente(T, ListaNova),
     append([Paciente],ListaNova,Lista).
 
+%\\\\\\\\\\\\\\\\\\VACINAÇÃO////////////////////
+salvaListaVacinacao(ListaVacinacao):-
+    open('dados/Vacinacoes.txt',write,ArquivoVacinacao),
+    escreveTodasAsVacinacoes(ListaVacinacao,String),
+    write(ArquivoVacinacao,String),
+    close(ArquivoVacinacao).
+
+escreveTodasAsVacinacoes([],String):- String =''.
+escreveTodasAsVacinacoes([H|T],String):-
+    escreveVacinacao(H,VacinacaoString),
+    escreveTodasAsVacinacoes(T,StringProx),
+    string_concat(VacinacaoString,StringProx,String).
+
+escreveVacinacao(vacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima),String):-
+    string_concat(NomeVacina, ',', Parte1), 
+    string_concat(Parte1, Local, Parte2),
+    string_concat(Parte2, ',', Parte3),
+    string_concat(Parte3, DataPrimeiraDose, Parte4), 
+    string_concat(Parte4, ',', Parte5), 
+    string_concat(Parte5, DataSegundaDose, Parte6), 
+    string_concat(Parte6, ',', Parte7), 
+    string_concat(Parte7, HorarioInicio, Parte8), 
+    string_concat(Parte8, ',', Parte9), 
+    string_concat(Parte9, HorarioFim, Parte10), 
+    string_concat(Parte10, ',', Parte11),
+    string_concat(Parte11, IdadeMinima, Parte12),
+    string_concat(Parte12, '\n', String).
+
+iniciaVacinacao(ListaVacinacao):-
+    open('dados/Vacinacoes.txt',read,Stream),
+    read_file(Stream,ListaVacinacaoStr),
+    resgataVacinacao(ListaVacinacaoStr,ListaVacinacao),
+    close(Stream).
+
+resgataVacinacao([],_).
+resgataVacinacao([H,T], Lista):-
+    nth0(0, H, NomeVacina),
+    nth0(1, H, Local),
+    nth0(2, H, DataPrimeiraDose),
+    nth0(3, H, DataSegundaDose),
+    nth0(4, H, HorarioInicio),
+    nth0(5, H, HorarioFim),
+    nth0(6, H, IdadeMinima),
+    constroiVacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima,Vacinacao),
+    resgataVacinacao(T, ListaNova),
+    append([Vacinacao], ListaNova,Lista).
 
 read_file(Stream,[]) :-
     at_end_of_stream(Stream).
