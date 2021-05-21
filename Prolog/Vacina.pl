@@ -1,5 +1,4 @@
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 
 constroiVacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais)).
 
@@ -16,9 +15,12 @@ getVacinaSelo(vacina(_,_,_,_,_,_,_,_,Selo,_),Selo).
 getVacinaPais(vacina(_,_,_,_,_,_,_,_,_,Pais),Pais).
 
 % busca vacina
-buscaVacina(_,[]):- nl.
-buscaVacina(NomeVacina,[H|T]):- getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),getVacinaQuantidadeDoses(H,NDeDoses),
-            (NomeUpper = NomeVacinaUpper,NDeDoses = '1'->  getVacinaQuantidade(H,Quantidade), write(Quantidade),nl,buscaVacina(NomeVacina,T); buscaVacina(NomeVacina,T)).
+buscaVacina(_,[],Aux):- nl.
+buscaVacina(NomeVacina,[H|T],Aux):- getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),getVacinaQuantidadeDoses(H,NDeDoses),
+            (NomeUpper = NomeVacinaUpper,getVacinaQuantidade(H,Quantidade),Quantidade = '0' -> write(NomeVacina),write(' Não possui doses disponíveis para vacinação.'),nl,nl;
+            (NomeUpper = NomeVacinaUpper,atom_number(NDeDoses, Number),Number = 1->  getVacinaQuantidade(H,Quantidade), write(NomeVacina),write(' Possui '),write(Quantidade),write(' doses disponíveis para aplicação.'),nl,nl;
+            (NomeUpper = NomeVacinaUpper,atom_number(NDeDoses,Number),Number > 1-> getVacinaQuantidade(H,Quantidade),atom_number(Quantidade,QtndInt),Aux is QtndInt/Number ,write(NomeVacina),write(' Possui '),write(Aux),write(' doses disponíveis para aplicação.'),nl,nl));
+            buscaVacina(NomeVacina,T,Aux)).
 
 % lista as vacinas
 listarVacinas([]):- nl.

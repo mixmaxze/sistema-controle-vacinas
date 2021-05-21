@@ -1,4 +1,3 @@
 teste,teste,teste,teste,2000,1,teste,90,teste,teste
-teste2,tes,teste,teste,100,1,covid,90,anvisa,brasil
+teste2,tes,teste,teste,100,2,covid,90,anvisa,brasil
 falta,20/01/21,20/02/22,lab,0,1,covid,80,anvisa,Brasil
-teste,41,31,teste,1,1,teste,90,teste,teste

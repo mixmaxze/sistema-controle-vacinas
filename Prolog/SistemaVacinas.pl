@@ -134,9 +134,9 @@ menuVacinas(6) :-
     tty_clear,
     write('Nome da vacina:'), nl,
     readString(NomeVacina),
-    write('Quantidade de doses disponíveis para aplicação:'), nl,
+    write('Quantidade de doses disponíveis para aplicação:'), nl,nl,
     listaVacinas(ListaVacinas),
-    buscaVacina(NomeVacina,ListaVacinas),
+    buscaVacina(NomeVacina,ListaVacinas,Aux),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -173,7 +173,7 @@ menuAtualizaVacina(-1) :-
     % ATUALIZAR VACINA AQUI,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuListaVacinas(1) :-
     tty_clear,
@@ -254,7 +254,7 @@ menuPacientes(2) :-
     write('Insira o novo valor:'), nl,
     readString(Valor),
     % ATUALIZAR PACIENTE AQUI
-    menuPacientes(-1).
+    menuPacientes(99).
 
 menuPacientes(3) :-
     tty_clear,
@@ -267,12 +267,17 @@ menuPacientes(3) :-
 
 menuPacientes(4) :-
     tty_clear,
-    write('Insira o CPF do paciente o qual deseja ver a situação:'),
+    listaPacientes(ListaPacientes),
+    listaVacinacao(ListaVacinacao),
+    write('Insira o CPF do paciente o qual deseja ver a situação:'),nl,
     readString(CPF),
-    % EXIBIR SITUAÇÃO DO PACIENTE AQUI.
+    write('O Paciente com o CPF = '),write(CPF),write(' podera se vacinar por: '),nl,
+    getIddPaciente(CPF,ListaPacientes,IdadePaciente),
+    %write(IdadePaciente),
+    verSituacaoPaciente(IdadePaciente,ListaVacinacao),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuPacientes(-1).
+    menuPacientes(99).
 
 menuPacientes(5) :-
     salvarDados(),
@@ -319,9 +324,11 @@ menuVacinacoes(1) :-
 
 menuVacinacoes(2) :-
     tty_clear,
+    listaVacinacao(ListaVacinacao),
     write('Nome da vacina:'), nl,
     readString(NomeVacina),
-    % LISTAR PACIENTES QUE VAO SER VACINADOS AQUI
+    getIddMinima(NomeVacina,ListaVacinas,Retorno),
+    write(Retorno),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinacoes(99).
