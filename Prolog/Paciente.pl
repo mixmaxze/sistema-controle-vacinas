@@ -9,6 +9,11 @@ getPacienteCPF(paciente(_, _, CPF, _, _, _), CPF).
 getPacienteEndereco(paciente(_, _, _, Endereco, _, _), Endereco).
 getPacienteIdade(paciente(_, _, _, _, Idade, _), Idade).
 getPacienteTelefone(paciente(_, _, _, _, _, Telefone), Telefone).
+%getIddPaciente(_,[],ListaVacinacao):- write('Paciente não existe.').
+getIddPaciente(_,[],IdadePaciente) :- nl.
+getIddPaciente(Cpf,[H|T],IdadePaciente):- getPacienteCPF(H,CpfPacienteH),
+    (Cpf = CpfPacienteH -> IdadePaciente is Idade,getPacienteIdade(H,IdadeH),atom_number(IdadeH,Idade);
+    getIddPaciente(Cpf,T,IdadePaciente)).
 
 % busca paciente
 buscaPaciente(_,[],Resultado):- Resultado = 'Paciente não encontrado.'.
@@ -32,9 +37,3 @@ pacienteToString(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone), Resultado)
     string_concat(Concat8, Idade, Concat9),
     string_concat(Concat9, ' - Telefone: ', Concat10),
     string_concat(Concat10, Telefone, Resultado).
-
-%getIddPaciente(_,[],ListaVacinacao):- write('Paciente não existe.').
-getIddPaciente(_,[],IdadePaciente) :- nl.
-getIddPaciente(Cpf,[H|T],IdadePaciente):- getPacienteCPF(H,CpfPacienteH),
-    (Cpf = CpfPacienteH -> IdadePaciente is Idade,getPacienteIdade(H,IdadeH),atom_number(IdadeH,Idade);
-    getIddPaciente(Cpf,T,IdadePaciente)).
