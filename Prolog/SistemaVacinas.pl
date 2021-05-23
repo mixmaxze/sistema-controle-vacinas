@@ -5,9 +5,6 @@
 :- style_check(-singleton).
 :- initialization(main).
 
-
-
-
 main :-
     carregaPacientes(),
     carregaVacinas(),
@@ -54,7 +51,7 @@ menuVacinas(99):-
     write('5. Listar vacinas por atributo'), nl,
     write('6. Doses disponiveis para aplicação'), nl,
     write('7. Atualizar Vacina'),nl,
-    write('8. Salvar Dados'),nl,
+    %write('8. Salvar Dados'),nl,
     write('0. Voltar para o menu principal'), nl,
     readNumber(Numero),
     menuVacinas(Numero).
@@ -87,6 +84,7 @@ menuVacinas(1):-
     readString(Pais),
     constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
     salvaVacinas(Vacina),
+    salvarDados(),
     write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
     readString(_),
@@ -148,12 +146,12 @@ menuVacinas(7) :-
     readString(Vacina),
     menuAtualizaVacina(-1).
 
-menuVacinas(8) :-
+/*menuVacinas(8) :-
     salvarDados(),
     write('Dados salvos.'),nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(99).
+    menuVacinas(99).*/
 
 menuAtualizaVacina(-1) :-
     tty_clear,
@@ -212,7 +210,7 @@ menuPacientes(99) :-
     write('2. Atualizar paciente'), nl,
     write('3. Listar pacientes'), nl,
     write('4. Ver situação'), nl,
-    write('5. Salvar Dados'),nl,
+    %write('5. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuPacientes(Numero).
@@ -239,6 +237,7 @@ menuPacientes(1) :-
     salvaPacientes(Paciente),
     write('Paciente cadastrado!'), nl,
     write('Pressione ENTER para continuar.'), nl,
+    salvarDados(),
     readString(_),
     menuPacientes(99).
 
@@ -290,7 +289,7 @@ menuVacinacoes(99) :-
     write('1. Agendar vacinação'), nl,
     write('2. Listar pacientes a serem vacinados por uma determinada vacina'), nl,
     write('3. Calcular projeção de conclusão de uma vacinação'), nl,
-    write('4. Salvar Dados'),nl,
+    %write('4. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuVacinacoes(Numero).
@@ -319,6 +318,7 @@ menuVacinacoes(1) :-
     salvaVacinacao(Vacinacao),
     write('Vacinação agendada!'), nl,
     write('Pressione ENTER para continuar.'), nl,
+    salvarDados(),
     readString(_),
     menuVacinacoes(99).
 
