@@ -1,4 +1,5 @@
 :- style_check(-singleton).
+:- style_check(-discontiguous).
 
 constroiVacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima, vacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima)).
 

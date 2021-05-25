@@ -1,4 +1,5 @@
 :- style_check(-singleton).
+:- style_check(-discontiguous).
 
 constroiVacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,vacina(Nome,DataFabricacao,DataValidade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais)).
 
