@@ -37,3 +37,84 @@ pacienteToString(paciente(Nome,Sexo, CPF, Endereco, Idade, Telefone), Resultado)
     string_concat(Concat8, Idade, Concat9),
     string_concat(Concat9, ' - Telefone: ', Concat10),
     string_concat(Concat10, Telefone, Resultado).
+
+deletaPaciente([], ListaAtual, CpfPaciente, NovaLista).
+deletaPaciente([H|T], ListaAtual, CpfPaciente, NovaLista):- 
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> delete(ListaAtual,H, NovaLista);
+    deletaPaciente(T, ListaAtual, CpfPaciente, NovaLista)).
+
+atualizaNomePaciente([], CpfPaciente, NovoValor, PacienteSaida).
+atualizaNomePaciente([H|T], CpfPaciente, NovoValor, PacienteSaida):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> novoNomePaciente(H, NovoValor, PacienteSaida), pacienteToString(PacienteSaida,Result), write(Result), nl;
+    atualizaNomePaciente(T, CpfPaciente, NovoValor, PacienteSaida)).
+
+novoNomePaciente(Paciente, NovoValor, Result):- 
+    getPacienteNome(Paciente, NOME),
+    getPacienteCPF(Paciente, CPF),
+    getPacienteEndereco(Paciente, ENDERECO),
+    getPacienteIdade(Paciente, IDADE),
+    getPacienteSexo(Paciente, SEXO),
+    getPacienteTelefone(Paciente, TELEFONE),
+    constroiPaciente(NovoValor, SEXO, CPF, ENDERECO, IDADE, TELEFONE, Result).
+
+atualizaSexoPaciente([], CpfPaciente, NovoValor, PacienteSaida).
+atualizaSexoPaciente([H|T], CpfPaciente, NovoValor, PacienteSaida):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> novoSecsoPaciente(H, NovoValor, PacienteSaida), pacienteToString(PacienteSaida,Result), write(Result), nl;
+    atualizaSexoPaciente(T, CpfPaciente, NovoValor, PacienteSaida)).
+
+novoSecsoPaciente(Paciente, NovoValor, Result):- 
+    getPacienteNome(Paciente, NOME),
+    getPacienteCPF(Paciente, CPF),
+    getPacienteEndereco(Paciente, ENDERECO),
+    getPacienteIdade(Paciente, IDADE),
+    getPacienteSexo(Paciente, SEXO),
+    getPacienteTelefone(Paciente, TELEFONE),
+    constroiPaciente(NOME, NovoValor, CPF, ENDERECO, IDADE, TELEFONE, Result).
+
+atualizaTelefonePaciente([], CpfPaciente, NovoValor, PacienteSaida).
+atualizaTelefonePaciente([H|T], CpfPaciente, NovoValor, PacienteSaida):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> novoTelPaciente(H, NovoValor, PacienteSaida), pacienteToString(PacienteSaida,Result), write(Result), nl;
+    atualizaTelefonePaciente(T, CpfPaciente, NovoValor, PacienteSaida)).
+
+novoTelPaciente(Paciente, NovoValor, Result):- 
+    getPacienteNome(Paciente, NOME),
+    getPacienteCPF(Paciente, CPF),
+    getPacienteEndereco(Paciente, ENDERECO),
+    getPacienteIdade(Paciente, IDADE),
+    getPacienteSexo(Paciente, SEXO),
+    getPacienteTelefone(Paciente, TELEFONE),
+    constroiPaciente(NOME, SEXO, CPF, ENDERECO, IDADE, NovoValor, Result).
+
+atualizaEnderecoPaciente([], CpfPaciente, NovoValor, PacienteSaida).
+atualizaEnderecoPaciente([H|T], CpfPaciente, NovoValor, PacienteSaida):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> novoEndPaciente(H, NovoValor, PacienteSaida), pacienteToString(PacienteSaida,Result), write(Result), nl;
+    atualizaEnderecoPaciente(T, CpfPaciente, NovoValor, PacienteSaida)).
+
+novoEndPaciente(Paciente, NovoValor, Result):- 
+    getPacienteNome(Paciente, NOME),
+    getPacienteCPF(Paciente, CPF),
+    getPacienteEndereco(Paciente, ENDERECO),
+    getPacienteIdade(Paciente, IDADE),
+    getPacienteSexo(Paciente, SEXO),
+    getPacienteTelefone(Paciente, TELEFONE),
+    constroiPaciente(NOME, SEXO, CPF, NovoValor, IDADE, TELEFONE, Result).
+
+atualizaIdadePaciente([], CpfPaciente, NovoValor, PacienteSaida).
+atualizaIdadePaciente([H|T], CpfPaciente, NovoValor, PacienteSaida):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> novoIdadePaciente(H, NovoValor, PacienteSaida), pacienteToString(PacienteSaida,Result), write(Result), nl;
+    atualizaIdadePaciente(T, CpfPaciente, NovoValor, PacienteSaida)).
+
+novoIdadePaciente(Paciente, NovoValor, Result):- 
+    getPacienteNome(Paciente, NOME),
+    getPacienteCPF(Paciente, CPF),
+    getPacienteEndereco(Paciente, ENDERECO),
+    getPacienteIdade(Paciente, IDADE),
+    getPacienteSexo(Paciente, SEXO),
+    getPacienteTelefone(Paciente, TELEFONE),
+    constroiPaciente(NOME, SEXO, CPF, ENDERECO, NovoValor, TELEFONE, Result).
