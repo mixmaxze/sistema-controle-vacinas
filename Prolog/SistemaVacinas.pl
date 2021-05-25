@@ -146,14 +146,16 @@ menuVacinas(7) :-
     write('Atualizando vacina'), nl, nl,
     write('Insira o nome da vacina:'), nl,
     readString(Vacina),
-    menuAtualizaVacina(-1).
+    menuAtualizaVacina(-1, Vacina).
 
 menuVacinas(8) :-
     salvarDados(),
     write('Dados salvos.'),nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinas(99).
 
-menuAtualizaVacina(-1) :-
+menuAtualizaVacina(-1, Vacina) :-
     tty_clear,
     write('Escolha qual atributo da vacina deseja alterar:'), nl, nl,
     write('1. Alterar a data de fabricação'),nl,
@@ -168,10 +170,27 @@ menuAtualizaVacina(-1) :-
     readNumber(Numero),
     write('Insira o novo valor:'), nl,
     readString(NovoValor),
-    % ATUALIZAR VACINA AQUI,
+    listaVacinas(ListaVacinas),
+    deletaVacina(ListaVacinas, ListaVacinas, Vacina, NovaLista),
+
+    (Numero == 1 -> alteraFabricacaoVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 2 -> alteraValidadeVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 3 -> alteraLaboratorioVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 4 -> alteraEstoqueVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 5 -> alteraDosesVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 6 -> alteraEnfermidadeVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 7 -> alteraTaxaVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 8 -> alteraSeloVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    Numero == 9 -> alteraPaisVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
+    write("Opção Invalida")),
+
+    salvarDados(NovaLista),
+    salvaVacinas(VacinaSaida),
+    salvarDados(),
+    vacinaToString(VacinaSaida, Result), write(Result), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
-    menuVacinas(-1).
+    menuVacinas(99).
 
 menuListaVacinas(1) :-
     tty_clear,
@@ -242,17 +261,31 @@ menuPacientes(1) :-
 
 menuPacientes(2) :-
     tty_clear,
-    write('Alterando um paciente'), nl,
+    write('Alterando um paciente'), nl, nl,
+    write('1. Digite o CPF do Paciente'), nl,
+    readString(Cpf),
     write('1. Alterar o nome'), nl,
     write('2. Alterar o sexo'), nl,
     write('3. Alterar o telefone'), nl,
     write('4. Alterar o endereco'), nl,
     write('5. Alterar a idade'), nl,
-    readString(Opcao),
+    readNumber(Opcao),
     write('Insira o novo valor:'), nl,
     readString(Valor),
-    % ATUALIZAR PACIENTE AQUI
-    menuPacientes(-1).
+    listaPacientes(ListaPacientes),
+    deletaPaciente(ListaPacientes,ListaPacientes, Cpf, NovaLista),
+    (Opcao == 1 -> atualizaNomePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
+    Opcao == 2 -> atualizaSexoPaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
+    Opcao == 3 -> atualizaTelefonePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
+    Opcao == 4 -> atualizaEnderecoPaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
+    Opcao == 5 -> atualizaIdadePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
+    write("Opcao invalida")),
+    salvaListaPacientes(NovaLista),
+    salvaPacientes(PacienteSaida),
+    salvarDados(),
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
+    menuPacientes(99).
 
 menuPacientes(3) :-
     tty_clear,
@@ -394,6 +427,12 @@ salvarDados():-
     salvaListaVacinas(ListaVacinas),
     salvaListaVacinacao(ListaVacinacao).
 
+salvarDados(ListaVacinas):-
+    listaPacientes(ListaPacientes),
+    listaVacinacao(ListaVacinacao),
+    salvaListaPacientes(ListaPacientes),
+    salvaListaVacinas(ListaVacinas),
+    salvaListaVacinacao(ListaVacinacao).
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
 
