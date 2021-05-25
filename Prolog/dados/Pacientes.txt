@@ -1,0 +1,4 @@
+teste,m,1,1,40,1
+lucas,m,2,casa,20,1
+teste2,f,3,rua,200,2
+José,M,191281928,Rua das Ruas,20,921829182

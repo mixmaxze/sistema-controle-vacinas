@@ -1,14 +1,13 @@
 :- style_check(-singleton).
-:- style_check(-discontiguous).
 
 constroiVacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima, vacinacao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose, HorarioInicio, HorarioFim, IdadeMinima)).
 
 %gets
-getNomeVacina((NomeVacina, _, _, _, _, _, _), NomeVacina).
-getLocal((_, Local, _, _, _, _, _), Local).
-getDataPrimeiraDose((_, _, DataPrimeiraDose, _, _, _, _), DataPrimeiraDose).
-getDataSegundaDose((_, _, _, DataSegundaDose, _, _, _), DataSegundaDose).
-getIdadeMinima((_, _, _, _, _, _, IdadeMinima), IdadeMinima).
+getNomeVacina(vacinacao(NomeVacina, _, _, _, _, _, _), NomeVacina).
+getLocal(vacinacao(_, Local, _, _, _, _, _), Local).
+getDataPrimeiraDose(vacinacao(_, _, DataPrimeiraDose, _, _, _, _), DataPrimeiraDose).
+getDataSegundaDose(vacinacao(_, _, _, DataSegundaDose, _, _, _), DataSegundaDose).
+getIdadeMinima(vacinacao(_, _, _, _, _, _, IdadeMinima), IdadeMinima).
 
 listarVacinacao([]):- nl.
 listarVacinacao([H|T]):- vacinacaoToString(H,VacinacaoToString), write(VacinacaoToString), nl, listarVacinacao(T).
@@ -27,3 +26,21 @@ vacinacaoToString(vacincao(NomeVacina, Local, DataPrimeiraDose, DataSegundaDose,
     string_concat(Concat10, HorarioFim, Concat11),
     string_concat(Concat11, ' - IdadeMinima: ', Concat12),
     string_concat(Concat12, IdadeMinima, Resultado).
+
+% situação do paciente
+verSituacaoPaciente(_,[]) :- nl.
+verSituacaoPaciente(IdadePaciente,[H|T]):- getIdadeMinima(H,IdadeMinima),getNomeVacina(H,NomeVacina),getDataPrimeiraDose(H,DataPrimeiraDose),getDataSegundaDose(H,DataSegundaDose),getLocal(H,LocalVacinacao),
+    (IdadePaciente >= IdadeMinima , DataSegundaDose = '' -> write(NomeVacina),write(' em: '),nl,
+    write('Primeira dose : '),write(DataPrimeiraDose),nl,
+    write('Onde? '),write(LocalVacinacao),nl,nl,verSituacaoPaciente(IdadePaciente,T);
+    (IdadePaciente >= IdadeMinima , DataSegundaDose \= '' -> write(NomeVacina),write(' em: '),nl,
+    write('Primeira dose : '),write(DataPrimeiraDose),nl,
+    write('Segunda dose : '),write(DataSegundaDose),nl,
+    write('Onde? '),write(LocalVacinacao),nl,nl,verSituacaoPaciente(IdadePaciente,T));
+    verSituacaoPaciente(IdadePaciente,T)).
+
+
+getIddMinima(_,[],Retorno):-nl.
+getIddMinima(NomeVacinaASerAplicada,[H|T],Retorno):- getNomeVacina(H,NomeVacinaH),string_upper(NomeVacinaH, NomeUpper), string_upper(NomeVacinaASerAplicada, NomeVacinaUpper),
+    (NomeVacinaUpper = NomeUpper -> getIdadeMinima(H,IdadeMinima),Retorno is IdadeMinima;
+    getIdadeMinima(NomeVacinaASerAplicada,T,Retorno)).
