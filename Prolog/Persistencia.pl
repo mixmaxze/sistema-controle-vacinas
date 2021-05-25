@@ -1,6 +1,8 @@
 :- include('Vacina.pl').
 :- include('Paciente.pl').
 :- include('Vacinacao.pl').
+:- style_check(-discontiguous).
+:- style_check(-singleton).
 
 %\\\\\\\\\\\\\\\\VACINAS/////////////////////////
 salvaListaVacinas(ListaVacinas):-

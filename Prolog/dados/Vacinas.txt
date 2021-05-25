@@ -1,1 +1,2 @@
-
+teste,hoje,hoje,pfizer,2000,1,covid,100,sim,Brasil
+teste,amanha,hoje,pfizer,2000,1,covid,100,sim,Brasil

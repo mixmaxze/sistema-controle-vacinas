@@ -1,4 +1,5 @@
 :- style_check(-singleton).
+:- style_check(-discontiguous).
 
 constroiPaciente(Nome, Sexo, CPF, Endereco, Idade, Telefone, paciente(Nome, Sexo, CPF, Endereco, Idade, Telefone)).
 
@@ -12,7 +13,7 @@ getPacienteTelefone(paciente(_, _, _, _, _, Telefone), Telefone).
 %getIddPaciente(_,[],ListaVacinacao):- write('Paciente não existe.').
 getIddPaciente(_,[],IdadePaciente) :- nl.
 getIddPaciente(Cpf,[H|T],IdadePaciente):- getPacienteCPF(H,CpfPacienteH),
-    (Cpf = CpfPacienteH -> IdadePaciente is Idade,getPacienteIdade(H,IdadeH),atom_number(IdadeH,Idade);
+    (Cpf = CpfPacienteH -> getPacienteIdade(H,Idade),IdadePaciente is Idade;
     getIddPaciente(Cpf,T,IdadePaciente)).
 
 % busca paciente

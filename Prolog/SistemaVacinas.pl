@@ -3,6 +3,7 @@
 :- include('Vacinacao.pl').
 :- include('Persistencia.pl').
 :- style_check(-singleton).
+:- style_check(-discontiguous).
 :- initialization(main).
 
 main :-
@@ -51,7 +52,7 @@ menuVacinas(99):-
     write('5. Listar vacinas por atributo'), nl,
     write('6. Doses disponiveis para aplicação'), nl,
     write('7. Atualizar Vacina'),nl,
-    %write('8. Salvar Dados'),nl,
+    write('8. Salvar Dados'),nl,
     write('0. Voltar para o menu principal'), nl,
     readNumber(Numero),
     menuVacinas(Numero).
@@ -84,7 +85,6 @@ menuVacinas(1):-
     readString(Pais),
     constroiVacina(Nome,DataFabricacao,Validade,Laboratorio,Quantidade,QuantidadeDoses,Doenca,Eficiencia,Selo,Pais,Vacina),
     salvaVacinas(Vacina),
-    salvarDados(),
     write('Vacina cadastrada!'), nl,  
     write('Pressione ENTER para continuar.'),
     readString(_),
@@ -169,8 +169,7 @@ menuAtualizaVacina(-1, Vacina) :-
     readNumber(Numero),
     write('Insira o novo valor:'), nl,
     readString(NovoValor),
-    listaVacinas(ListaVacinas),
-    deletaVacina(ListaVacinas, ListaVacinas, Vacina, NovaLista),
+
 
     (Numero == 1 -> alteraFabricacaoVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     Numero == 2 -> alteraValidadeVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
@@ -182,10 +181,7 @@ menuAtualizaVacina(-1, Vacina) :-
     Numero == 8 -> alteraSeloVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     Numero == 9 -> alteraPaisVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     write("Opção Invalida")),
-
-    salvarDados(NovaLista),
-    salvaVacinas(VacinaSaida),
-    salvarDados(),
+    salvaVacinasAtt(Vacina,VacinaSaida),
     vacinaToString(VacinaSaida, Result), write(Result), nl,
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
@@ -228,7 +224,7 @@ menuPacientes(99) :-
     write('2. Atualizar paciente'), nl,
     write('3. Listar pacientes'), nl,
     write('4. Ver situação'), nl,
-    %write('5. Salvar Dados'),nl,
+    write('5. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuPacientes(Numero).
@@ -255,7 +251,6 @@ menuPacientes(1) :-
     salvaPacientes(Paciente),
     write('Paciente cadastrado!'), nl,
     write('Pressione ENTER para continuar.'), nl,
-    salvarDados(),
     readString(_),
     menuPacientes(99).
 
@@ -305,7 +300,6 @@ menuPacientes(4) :-
     readString(CPF),
     write('O Paciente com o CPF = '),write(CPF),write(' podera se vacinar por: '),nl,
     getIddPaciente(CPF,ListaPacientes,IdadePaciente),
-    %write(IdadePaciente),
     verSituacaoPaciente(IdadePaciente,ListaVacinacao),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
@@ -314,6 +308,8 @@ menuPacientes(4) :-
 menuPacientes(5) :-
     salvarDados(),
     write('Dados salvos.'),nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuPacientes(99).
 
 menuVacinacoes(99) :-
@@ -322,7 +318,7 @@ menuVacinacoes(99) :-
     write('1. Agendar vacinação'), nl,
     write('2. Listar pacientes a serem vacinados por uma determinada vacina'), nl,
     write('3. Calcular projeção de conclusão de uma vacinação'), nl,
-    %write('4. Salvar Dados'),nl,
+    write('4. Salvar Dados'),nl,
     write('0. Voltar ao menu principal'), nl,
     readNumber(Numero),
     menuVacinacoes(Numero).
@@ -351,7 +347,6 @@ menuVacinacoes(1) :-
     salvaVacinacao(Vacinacao),
     write('Vacinação agendada!'), nl,
     write('Pressione ENTER para continuar.'), nl,
-    salvarDados(),
     readString(_),
     menuVacinacoes(99).
 
@@ -377,6 +372,8 @@ menuVacinacoes(3) :-
 menuVacinacoes(4) :-
     salvarDados(),
     write('Dados salvos.'),nl,
+    write('Pressione ENTER para continuar.'), nl,
+    readString(_),
     menuVacinacoes(99).
 % \\\\\\\\\\\\\\\\\\\\ SALVAR DADOS /////////////////////
 
@@ -385,6 +382,13 @@ salvaVacinas(Vacina):-
     retract(listaVacinas(Lista)),
     append(Lista,[Vacina],NovaLista),
     assert(listaVacinas(NovaLista)).
+  
+salvaVacinasAtt(VacinaAntiga,NovaVacina):-
+
+    retract(listaVacinas(Lista)),
+    delete(Lista,VacinaAntiga,NovaLista),
+    append(NovaLista,[NovaVacina],NewNovaLista),
+    assert(listaVacinas(NewNovaLista)).
   
  listaVacinas([]).
 :- dynamic listaVacinas/1.
@@ -436,12 +440,6 @@ salvarDados():-
     salvaListaVacinas(ListaVacinas),
     salvaListaVacinacao(ListaVacinacao).
 
-salvarDados(ListaVacinas):-
-    listaPacientes(ListaPacientes),
-    listaVacinacao(ListaVacinacao),
-    salvaListaPacientes(ListaPacientes),
-    salvaListaVacinas(ListaVacinas),
-    salvaListaVacinacao(ListaVacinacao).
 readString(String):- read_line_to_codes(user_input, E), atom_string(E,String).
 readNumber(Number):- read_line_to_codes(user_input, E), atom_string(E,X), atom_number(X,Number).
 
