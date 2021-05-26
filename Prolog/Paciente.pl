@@ -16,10 +16,16 @@ getIddPaciente(Cpf,[H|T],IdadePaciente):- getPacienteCPF(H,CpfPacienteH),
     (Cpf = CpfPacienteH -> getPacienteIdade(H,Idade),IdadePaciente is Idade;
     getIddPaciente(Cpf,T,IdadePaciente)).
 
+% pega paciente
+getPaciente(CpfPaciente, [], Paciente).
+getPaciente(CpfPaciente, [H|T], Paciente):-
+    getPacienteCPF(H,Cpf), string_upper(Cpf, CpfUpper), string_upper(CpfPaciente, CpfPacienteUpper),
+    (CpfUpper == CpfPacienteUpper -> Paciente = H; getPaciente(CpfPaciente, T, Paciente)).
+
 % busca paciente
 buscaPaciente(_,[],Resultado):- Resultado = 'Paciente não encontrado.'.
-buscaPaciente(Cpf,[H|T], Resultado):- getPacienteCPF(H,CpfPaciente),
-            (Cpf = CpfPaciente -> Resultado is pacienteToString(H); buscaPaciente(NomePaciente,T,Resultado)).
+buscaPaciente(Cpf,[H|T], Resultado):- getPacienteCPF(H,CpfPaciente),pacienteToString(H,PacienteToString),
+            (Cpf = CpfPaciente -> Resultado is PacienteToString; buscaPaciente(NomePaciente,T,Resultado)).
 
 % lista os pacientes
 listarPacientes([]):- nl.
@@ -119,3 +125,8 @@ novoIdadePaciente(Paciente, NovoValor, Result):-
     getPacienteSexo(Paciente, SEXO),
     getPacienteTelefone(Paciente, TELEFONE),
     constroiPaciente(NOME, SEXO, CPF, ENDERECO, NovoValor, TELEFONE, Result).
+
+listaPacientesASeremVacinados(_,[]):- nl.
+listaPacientesASeremVacinados(IdadeMinima,[H|T]):- getPacienteIdade(H,IdadeH),
+    (IdadeMinima =< IdadeH -> pacienteToString(H,PacienteToString),write(PacienteToString),nl,listaPacientesASeremVacinados(IdadeMinima,T);
+    listaPacientesASeremVacinados(IdadeMinima,T)).

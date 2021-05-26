@@ -169,7 +169,7 @@ menuAtualizaVacina(-1, Vacina) :-
     readNumber(Numero),
     write('Insira o novo valor:'), nl,
     readString(NovoValor),
-
+    listaVacinas(ListaVacinas),
 
     (Numero == 1 -> alteraFabricacaoVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     Numero == 2 -> alteraValidadeVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
@@ -181,8 +181,9 @@ menuAtualizaVacina(-1, Vacina) :-
     Numero == 8 -> alteraSeloVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     Numero == 9 -> alteraPaisVacina(ListaVacinas, Vacina, NovoValor, VacinaSaida);
     write("Opção Invalida")),
-    salvaVacinasAtt(Vacina,VacinaSaida),
+    getVacina(Vacina,ListaVacinas,VacinaAntiga),
     vacinaToString(VacinaSaida, Result), write(Result), nl,
+    salvaVacinasAtt(VacinaAntiga,VacinaSaida),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinas(99).
@@ -268,16 +269,16 @@ menuPacientes(2) :-
     write('Insira o novo valor:'), nl,
     readString(Valor),
     listaPacientes(ListaPacientes),
-    deletaPaciente(ListaPacientes,ListaPacientes, Cpf, NovaLista),
+
     (Opcao == 1 -> atualizaNomePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
     Opcao == 2 -> atualizaSexoPaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
     Opcao == 3 -> atualizaTelefonePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
     Opcao == 4 -> atualizaEnderecoPaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
     Opcao == 5 -> atualizaIdadePaciente(ListaPacientes, Cpf, Valor, PacienteSaida);
     write("Opcao invalida")),
-    salvaListaPacientes(NovaLista),
-    salvaPacientes(PacienteSaida),
-    salvarDados(),
+    getPaciente(Cpf,ListaPacientes,PacienteAntigo),nl,
+    pacienteToString(PacienteSaida,Result),nl,
+    salvaPacientesAtt(PacienteAntigo,PacienteSaida),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
 
@@ -353,19 +354,24 @@ menuVacinacoes(1) :-
 menuVacinacoes(2) :-
     tty_clear,
     listaVacinacao(ListaVacinacao),
+    listaPacientes(ListaPacientes),
     write('Nome da vacina:'), nl,
     readString(NomeVacina),
-    getIddMinima(NomeVacina,ListaVacinas,Retorno),
-    write(Retorno),
+    getIddMinima(NomeVacina,ListaVacinacao,Retorno),
+    listaPacientesASeremVacinados(Retorno,ListaPacientes),
     write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinacoes(99).
 
 menuVacinacoes(3) :-
     tty_clear,
-    % NÃO ENTENDI MUITO BEM O QUE FAZ AQUI
-    % MAS TEM A VER COM PROJEÇAO DA VACINAÇÃO
-    write('Pressione ENTER para continuar.'), nl,
+    listaPacientes(ListaPacientes),
+    write('Insira a média diária de vacinação'),nl,
+    readNumber(MediaVacinacaoDiaria),
+    length(ListaPacientes,Saida),
+    calculaProjecaoVacinacao(MediaVacinacaoDiaria,Saida,Result),
+    nl,write('Serão necessários '),write(Result),write(' dias, para a conclusão da vacinação de todos os pacientes.'),
+    nl,nl,write('Pressione ENTER para continuar.'), nl,
     readString(_),
     menuVacinacoes(99).
 
@@ -388,7 +394,8 @@ salvaVacinasAtt(VacinaAntiga,NovaVacina):-
     retract(listaVacinas(Lista)),
     delete(Lista,VacinaAntiga,NovaLista),
     append(NovaLista,[NovaVacina],NewNovaLista),
-    assert(listaVacinas(NewNovaLista)).
+    assert(listaVacinas(NewNovaLista)),
+    salvarDados().
   
  listaVacinas([]).
 :- dynamic listaVacinas/1.
@@ -405,6 +412,14 @@ salvaPacientes(Paciente):-
     append(Lista,[Paciente],NovaLista),
     assert(listaPacientes(NovaLista)).
 
+salvaPacientesAtt(PacienteAntigo,PacienteNovo):-
+
+    retract(listaPacientes(Lista)),
+    delete(Lista,PacienteAntigo,NovaLista),
+    append(NovaLista,[PacienteNovo],NewNovaLista),
+    assert(listaPacientes(NewNovaLista)),
+    salvarDados().
+
 listaPacientes([]).
 :- dynamic listaPacientes/1.
 
@@ -413,8 +428,6 @@ carregaPacientes():-
     retract(listaPacientes(Lista)),
     append(Lista,ListaPacientes,NovaLista),
     assert(listaPacientes(NovaLista)).
-
-
 
 %\\\\\\\\\\\\\\\\\\\SALVAR VACINAÇÃO//////////////////
 salvaVacinacao(Vacinacao):-

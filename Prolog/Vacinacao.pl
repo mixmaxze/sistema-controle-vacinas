@@ -44,4 +44,9 @@ verSituacaoPaciente(IdadePaciente,[H|T]):- getIdadeMinima(H,IdadeMinima),getNome
 getIddMinima(_,[],Retorno):-nl.
 getIddMinima(NomeVacinaASerAplicada,[H|T],Retorno):- getNomeVacina(H,NomeVacinaH),string_upper(NomeVacinaH, NomeUpper), string_upper(NomeVacinaASerAplicada, NomeVacinaUpper),
     (NomeVacinaUpper = NomeUpper -> getIdadeMinima(H,IdadeMinima),Retorno is IdadeMinima;
-    getIdadeMinima(NomeVacinaASerAplicada,T,Retorno)).
+    getIddMinima(NomeVacinaASerAplicada,T,Retorno)).
+
+calculaProjecaoVacinacao(MediaVacinacaoDiaria,TotalPacientes,Result):-
+    (MediaVacinacaoDiaria > TotalPacientes -> Result is 1;
+    ((TotalPacientes mod MediaVacinacaoDiaria) =\= 0 -> Result is ((TotalPacientes div MediaVacinacaoDiaria) + 1));
+    Result is (TotalPacientes div MediaVacinacaoDiaria)).
