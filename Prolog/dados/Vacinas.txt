@@ -1,2 +1,5 @@
-teste,hoje,hoje,pfizer,2000,1,covid,100,sim,Brasil
-teste,amanha,hoje,pfizer,2000,1,covid,100,sim,Brasil
+CoronaVac,22/04/2021,22/05/2021,butantan,1000,1,covid19,78,aprovado,china
+Gripe,22/04/2021,22/05/20211,prosangue,0,1,gripe,100,aprovado,brasil
+febre amarela,22/04/2021,22/05/2021,fdiniz,10000,2,febre amarela,99,aprovado,brasil
+VacinaTeste,20/02/2021,20/02/2022,lab,2000,1,gripe,90,Anvisa,brasIL
+Vacina,20/01/2020,20/02/2022,laboratorio,1000,2,covid19,40,Ansiva,brasil

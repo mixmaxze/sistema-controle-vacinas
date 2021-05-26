@@ -15,6 +15,12 @@ getVacinaEficiencia(vacina(_,_,_,_,_,_,_,Eficiencia,_,_),Eficiencia).
 getVacinaSelo(vacina(_,_,_,_,_,_,_,_,Selo,_),Selo).
 getVacinaPais(vacina(_,_,_,_,_,_,_,_,_,Pais),Pais).
 
+% pega vacinaca
+getVacina(NomeVacina, [], Vacina).
+getVacina(NomeVacina, [H|T], Vacina) :-
+    getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),
+    (NomeUpper == NomeVacinaUpper -> Vacina = H; getVacina(NomeVacina, T, Vacina)).
+
 % busca vacina
 buscaVacina(_,[],Aux):- nl.
 buscaVacina(NomeVacina,[H|T],Aux):- getVacinaNome(H,Nome), string_upper(Nome, NomeUpper), string_upper(NomeVacina, NomeVacinaUpper),getVacinaQuantidadeDoses(H,NDeDoses),
