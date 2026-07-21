@@ -1,5 +1,0 @@
-lucas,m,2,casa,20,1
-teste2,f,3,rua,200,2
-José,M,191281928,Rua das Ruas,20,921829182
-regina,F,4,rua dela,20,5
-TestePaciente,M,5,rua nova,24,123
